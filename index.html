@@ -151,7 +151,7 @@
       gap: 9px;
       margin-bottom: 16px;
     }
-    .filter {
+    .filter, .pressure-filter {
       border: 1px solid #cfc5b4;
       background: #fffdf8;
       color: #24364b;
@@ -160,7 +160,7 @@
       cursor: pointer;
       font-weight: 700;
     }
-    .filter.active {
+    .filter.active, .pressure-filter.active {
       background: #173e65;
       color: white;
       border-color: #173e65;
@@ -170,7 +170,7 @@
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 14px;
     }
-    .tech-card, .qa-card, .memo, .danger {
+    .tech-card, .qa-card, .pressure-item, .memo, .danger {
       background: var(--card);
       border: 1px solid var(--line);
       border-radius: 8px;
@@ -270,6 +270,65 @@
       border-color: #e0b8ae;
       background: #fff3ef;
     }
+    .pressure-list {
+      display: grid;
+      gap: 10px;
+    }
+    .pressure-item {
+      display: grid;
+      grid-template-columns: 58px minmax(0, 1fr);
+      gap: 12px;
+      padding: 13px 15px;
+      border-left: 5px solid #b86f18;
+    }
+    .pressure-item.risk-high { border-left-color: var(--red); }
+    .pressure-item.risk-max {
+      border-left-color: #6e1712;
+      background: #fff2ef;
+    }
+    .pressure-num {
+      color: #12345b;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 20px;
+      font-weight: 800;
+      line-height: 1.4;
+    }
+    .pressure-main p {
+      margin: 5px 0 7px;
+      color: #1f2c3d;
+      font-weight: 800;
+    }
+    .pressure-main em {
+      display: block;
+      color: var(--muted);
+      font-style: normal;
+      font-size: 13px;
+    }
+    .pressure-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+    .pressure-meta span, .pressure-meta b {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      border-radius: 999px;
+      padding: 2px 9px;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+    .pressure-meta span {
+      color: #12345b;
+      background: #edf3f8;
+    }
+    .pressure-meta b {
+      color: #fff;
+      background: var(--amber);
+    }
+    .risk-high .pressure-meta b { background: var(--red); }
+    .risk-max .pressure-meta b { background: #6e1712; }
     .memo {
       padding: 18px;
       border-left: 5px solid var(--green);
@@ -319,6 +378,7 @@
         <a href="#overview">使用方法</a>
         <a href="#tech">技术点地图</a>
         <a href="#questions">完整问题库</a>
+        <a href="#pressure">严厉追问题库</a>
         <a href="#strategy">回答策略</a>
         <a href="#danger">高危提醒</a>
       </nav>
@@ -329,10 +389,10 @@
         <h1>张宇辉 AI 大模型面试问题库</h1>
         <p>这不是背八股的页面，而是按你的简历反向推演：面试官会从技术栈、项目合理性、个人职责、指标口径、医疗安全边界一路追问。每个问题都给出口语化回答、相关知识点解释、可能继续追问和避坑说法。</p>
         <div class="stats">
-          <div class="stat"><b>54</b><span>道高频追问题</span></div>
+          <div class="stat"><b>54</b><span>道精讲问答</span></div>
+          <div class="stat"><b>130</b><span>道严厉追问</span></div>
           <div class="stat"><b>20</b><span>个技术点解释</span></div>
           <div class="stat"><b>2</b><span>个核心项目口径</span></div>
-          <div class="stat"><b>1</b><span>条主线：AI 应用落地</span></div>
         </div>
       </header>
 
@@ -2240,6 +2300,1720 @@
         </div>
       </section>
 
+      <section id="pressure">
+        <div class="section-title">
+          <h2>严厉面试官追问题库</h2>
+          <span>这部分先不写长答案，专门训练你被连续追问时的抗压准备。</span>
+        </div>
+        <div class="filters pressure-filters">
+          <button class="pressure-filter active" data-pressure-filter="all">全部追问</button>
+<button class="pressure-filter" data-pressure-filter="简历真实性与职责边界">简历真实性与职责边界</button>
+<button class="pressure-filter" data-pressure-filter="项目背景与业务理解">项目背景与业务理解</button>
+<button class="pressure-filter" data-pressure-filter="多 Agent 与 LangGraph">多 Agent 与 LangGraph</button>
+<button class="pressure-filter" data-pressure-filter="医疗安全与高危规则">医疗安全与高危规则</button>
+<button class="pressure-filter" data-pressure-filter="RAG 知识库链路">RAG 知识库链路</button>
+<button class="pressure-filter" data-pressure-filter="评估指标与数据可信度">评估指标与数据可信度</button>
+<button class="pressure-filter" data-pressure-filter="报告解读与 PDF 解析">报告解读与 PDF 解析</button>
+<button class="pressure-filter" data-pressure-filter="后端与数据链路">后端与数据链路</button>
+<button class="pressure-filter" data-pressure-filter="前端 React / TypeScript / Ant Design">前端 React / TypeScript / Ant Design</button>
+<button class="pressure-filter" data-pressure-filter="模型与 Prompt">模型与 Prompt</button>
+<button class="pressure-filter" data-pressure-filter="简历语言与可信度压力题">简历语言与可信度压力题</button>
+<button class="pressure-filter" data-pressure-filter="终极压力题">终极压力题</button>
+        </div>
+        <div class="pressure-list">
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="简历真实性与职责边界" data-search="简历真实性与职责边界 你在四川一维科技有限公司的具体岗位是什么？实习、试用还是正式员工？ 高 先把身份、时间、个人贡献说清楚，别把团队成果说成自己独立完成。">
+              <div class="pressure-num">001</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>简历真实性与职责边界</span>
+                  <b>高风险</b>
+                </div>
+                <p>你在四川一维科技有限公司的具体岗位是什么？实习、试用还是正式员工？</p>
+                <em>先把身份、时间、个人贡献说清楚，别把团队成果说成自己独立完成。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="简历真实性与职责边界" data-search="简历真实性与职责边界 工作经历为什么没有写起止时间？和项目时间 2025.07 - 2026.07 是怎么对应的？ 高 先把身份、时间、个人贡献说清楚，别把团队成果说成自己独立完成。">
+              <div class="pressure-num">002</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>简历真实性与职责边界</span>
+                  <b>高风险</b>
+                </div>
+                <p>工作经历为什么没有写起止时间？和项目时间 2025.07 - 2026.07 是怎么对应的？</p>
+                <em>先把身份、时间、个人贡献说清楚，别把团队成果说成自己独立完成。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="简历真实性与职责边界" data-search="简历真实性与职责边界 两个项目时间有重叠，一个是 2025.07 - 2026.03，一个是 2026.02 - 2026.07，这两个月你同时做两个项目吗？ 高 先把身份、时间、个人贡献说清楚，别把团队成果说成自己独立完成。">
+              <div class="pressure-num">003</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>简历真实性与职责边界</span>
+                  <b>高风险</b>
+                </div>
+                <p>两个项目时间有重叠，一个是 2025.07 - 2026.03，一个是 2026.02 - 2026.07，这两个月你同时做两个项目吗？</p>
+                <em>先把身份、时间、个人贡献说清楚，别把团队成果说成自己独立完成。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="简历真实性与职责边界" data-search="简历真实性与职责边界 这两个项目是真实上线、内部原型、测试系统，还是培训项目包装？ 高 先把身份、时间、个人贡献说清楚，别把团队成果说成自己独立完成。">
+              <div class="pressure-num">004</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>简历真实性与职责边界</span>
+                  <b>高风险</b>
+                </div>
+                <p>这两个项目是真实上线、内部原型、测试系统，还是培训项目包装？</p>
+                <em>先把身份、时间、个人贡献说清楚，别把团队成果说成自己独立完成。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="简历真实性与职责边界" data-search="简历真实性与职责边界 你在项目里是核心开发、辅助开发，还是主要做前端和接口联调？ 高 先把身份、时间、个人贡献说清楚，别把团队成果说成自己独立完成。">
+              <div class="pressure-num">005</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>简历真实性与职责边界</span>
+                  <b>高风险</b>
+                </div>
+                <p>你在项目里是核心开发、辅助开发，还是主要做前端和接口联调？</p>
+                <em>先把身份、时间、个人贡献说清楚，别把团队成果说成自己独立完成。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="简历真实性与职责边界" data-search="简历真实性与职责边界 简历里写了 LangGraph、LangChain、Dify、Coze、RAGFlow，你分别实际用到哪些？哪些只是了解？ 高 先把身份、时间、个人贡献说清楚，别把团队成果说成自己独立完成。">
+              <div class="pressure-num">006</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>简历真实性与职责边界</span>
+                  <b>高风险</b>
+                </div>
+                <p>简历里写了 LangGraph、LangChain、Dify、Coze、RAGFlow，你分别实际用到哪些？哪些只是了解？</p>
+                <em>先把身份、时间、个人贡献说清楚，别把团队成果说成自己独立完成。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="简历真实性与职责边界" data-search="简历真实性与职责边界 你只有一年左右经验，为什么技术栈覆盖这么广？你最有把握讲深的是哪 3 个？ 高 先把身份、时间、个人贡献说清楚，别把团队成果说成自己独立完成。">
+              <div class="pressure-num">007</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>简历真实性与职责边界</span>
+                  <b>高风险</b>
+                </div>
+                <p>你只有一年左右经验，为什么技术栈覆盖这么广？你最有把握讲深的是哪 3 个？</p>
+                <em>先把身份、时间、个人贡献说清楚，别把团队成果说成自己独立完成。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="简历真实性与职责边界" data-search="简历真实性与职责边界 哪些模块是你亲自写代码实现的？哪些是参与设计？哪些只是联调或测试？ 高 先把身份、时间、个人贡献说清楚，别把团队成果说成自己独立完成。">
+              <div class="pressure-num">008</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>简历真实性与职责边界</span>
+                  <b>高风险</b>
+                </div>
+                <p>哪些模块是你亲自写代码实现的？哪些是参与设计？哪些只是联调或测试？</p>
+                <em>先把身份、时间、个人贡献说清楚，别把团队成果说成自己独立完成。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="简历真实性与职责边界" data-search="简历真实性与职责边界 如果我让你现场画项目架构图，你能画到接口、数据库表、状态字段级别吗？ 高 先把身份、时间、个人贡献说清楚，别把团队成果说成自己独立完成。">
+              <div class="pressure-num">009</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>简历真实性与职责边界</span>
+                  <b>高风险</b>
+                </div>
+                <p>如果我让你现场画项目架构图，你能画到接口、数据库表、状态字段级别吗？</p>
+                <em>先把身份、时间、个人贡献说清楚，别把团队成果说成自己独立完成。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="简历真实性与职责边界" data-search="简历真实性与职责边界 你项目里的医生、患者、值班医生复核是真实业务角色，还是模拟流程？ 高 先把身份、时间、个人贡献说清楚，别把团队成果说成自己独立完成。">
+              <div class="pressure-num">010</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>简历真实性与职责边界</span>
+                  <b>高风险</b>
+                </div>
+                <p>你项目里的医生、患者、值班医生复核是真实业务角色，还是模拟流程？</p>
+                <em>先把身份、时间、个人贡献说清楚，别把团队成果说成自己独立完成。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="项目背景与业务理解" data-search="项目背景与业务理解 医疗导诊项目解决的核心业务问题是什么？为什么不是普通问答系统就够了？ 高 回答要围绕医疗安全、AI 辅助边界、人工兜底和真实业务流程。">
+              <div class="pressure-num">011</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>项目背景与业务理解</span>
+                  <b>高风险</b>
+                </div>
+                <p>医疗导诊项目解决的核心业务问题是什么？为什么不是普通问答系统就够了？</p>
+                <em>回答要围绕医疗安全、AI 辅助边界、人工兜底和真实业务流程。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="项目背景与业务理解" data-search="项目背景与业务理解 医疗导诊、预问诊、报告解读、科室推荐，这几个场景为什么能放在一个系统里？ 高 回答要围绕医疗安全、AI 辅助边界、人工兜底和真实业务流程。">
+              <div class="pressure-num">012</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>项目背景与业务理解</span>
+                  <b>高风险</b>
+                </div>
+                <p>医疗导诊、预问诊、报告解读、科室推荐，这几个场景为什么能放在一个系统里？</p>
+                <em>回答要围绕医疗安全、AI 辅助边界、人工兜底和真实业务流程。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="项目背景与业务理解" data-search="项目背景与业务理解 患者输入症状后，系统完整流程是什么？从输入到医生复核每一步怎么走？ 高 回答要围绕医疗安全、AI 辅助边界、人工兜底和真实业务流程。">
+              <div class="pressure-num">013</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>项目背景与业务理解</span>
+                  <b>高风险</b>
+                </div>
+                <p>患者输入症状后，系统完整流程是什么？从输入到医生复核每一步怎么走？</p>
+                <em>回答要围绕医疗安全、AI 辅助边界、人工兜底和真实业务流程。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="项目背景与业务理解" data-search="项目背景与业务理解 为什么医疗场景必须强调 AI 不做诊断？你们怎么在系统里限制？ 高 回答要围绕医疗安全、AI 辅助边界、人工兜底和真实业务流程。">
+              <div class="pressure-num">014</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>项目背景与业务理解</span>
+                  <b>高风险</b>
+                </div>
+                <p>为什么医疗场景必须强调 AI 不做诊断？你们怎么在系统里限制？</p>
+                <em>回答要围绕医疗安全、AI 辅助边界、人工兜底和真实业务流程。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="项目背景与业务理解" data-search="项目背景与业务理解 项目里医生复核是所有结果都复核，还是只复核高风险结果？ 高 回答要围绕医疗安全、AI 辅助边界、人工兜底和真实业务流程。">
+              <div class="pressure-num">015</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>项目背景与业务理解</span>
+                  <b>高风险</b>
+                </div>
+                <p>项目里医生复核是所有结果都复核，还是只复核高风险结果？</p>
+                <em>回答要围绕医疗安全、AI 辅助边界、人工兜底和真实业务流程。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="项目背景与业务理解" data-search="项目背景与业务理解 如果用户问“我是不是得了癌症”，系统应该怎么处理？ 高 回答要围绕医疗安全、AI 辅助边界、人工兜底和真实业务流程。">
+              <div class="pressure-num">016</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>项目背景与业务理解</span>
+                  <b>高风险</b>
+                </div>
+                <p>如果用户问“我是不是得了癌症”，系统应该怎么处理？</p>
+                <em>回答要围绕医疗安全、AI 辅助边界、人工兜底和真实业务流程。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="项目背景与业务理解" data-search="项目背景与业务理解 如果用户问“这个药我能不能吃”，你们如何避免给出危险建议？ 高 回答要围绕医疗安全、AI 辅助边界、人工兜底和真实业务流程。">
+              <div class="pressure-num">017</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>项目背景与业务理解</span>
+                  <b>高风险</b>
+                </div>
+                <p>如果用户问“这个药我能不能吃”，你们如何避免给出危险建议？</p>
+                <em>回答要围绕医疗安全、AI 辅助边界、人工兜底和真实业务流程。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="项目背景与业务理解" data-search="项目背景与业务理解 医疗知识库里的资料来源是什么？药品说明书、疾病知识、急救知识从哪里来？ 高 回答要围绕医疗安全、AI 辅助边界、人工兜底和真实业务流程。">
+              <div class="pressure-num">018</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>项目背景与业务理解</span>
+                  <b>高风险</b>
+                </div>
+                <p>医疗知识库里的资料来源是什么？药品说明书、疾病知识、急救知识从哪里来？</p>
+                <em>回答要围绕医疗安全、AI 辅助边界、人工兜底和真实业务流程。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="项目背景与业务理解" data-search="项目背景与业务理解 数据是否脱敏？如果包含体检报告，姓名、身份证、医院编号怎么处理？ 高 回答要围绕医疗安全、AI 辅助边界、人工兜底和真实业务流程。">
+              <div class="pressure-num">019</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>项目背景与业务理解</span>
+                  <b>高风险</b>
+                </div>
+                <p>数据是否脱敏？如果包含体检报告，姓名、身份证、医院编号怎么处理？</p>
+                <em>回答要围绕医疗安全、AI 辅助边界、人工兜底和真实业务流程。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="项目背景与业务理解" data-search="项目背景与业务理解 你怎么理解医疗 AI 的合规风险？技术上做了哪些兜底？ 高 回答要围绕医疗安全、AI 辅助边界、人工兜底和真实业务流程。">
+              <div class="pressure-num">020</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>项目背景与业务理解</span>
+                  <b>高风险</b>
+                </div>
+                <p>你怎么理解医疗 AI 的合规风险？技术上做了哪些兜底？</p>
+                <em>回答要围绕医疗安全、AI 辅助边界、人工兜底和真实业务流程。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="多 Agent 与 LangGraph" data-search="多 Agent 与 LangGraph 为什么这个项目要用多 Agent？不用一个大 Prompt 能不能实现？ 高 重点准备 State 字段、节点输入输出、条件边、中断恢复和 HitL。">
+              <div class="pressure-num">021</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>多 Agent 与 LangGraph</span>
+                  <b>高风险</b>
+                </div>
+                <p>为什么这个项目要用多 Agent？不用一个大 Prompt 能不能实现？</p>
+                <em>重点准备 State 字段、节点输入输出、条件边、中断恢复和 HitL。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="多 Agent 与 LangGraph" data-search="多 Agent 与 LangGraph 你们的 Agent 是真正独立智能体，还是 LangGraph 里的业务节点？ 高 重点准备 State 字段、节点输入输出、条件边、中断恢复和 HitL。">
+              <div class="pressure-num">022</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>多 Agent 与 LangGraph</span>
+                  <b>高风险</b>
+                </div>
+                <p>你们的 Agent 是真正独立智能体，还是 LangGraph 里的业务节点？</p>
+                <em>重点准备 State 字段、节点输入输出、条件边、中断恢复和 HitL。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="多 Agent 与 LangGraph" data-search="多 Agent 与 LangGraph 分诊路由 Agent、症状问询 Agent、RAG Agent、报告解读 Agent、医生复核节点分别输入什么、输出什么？ 高 重点准备 State 字段、节点输入输出、条件边、中断恢复和 HitL。">
+              <div class="pressure-num">023</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>多 Agent 与 LangGraph</span>
+                  <b>高风险</b>
+                </div>
+                <p>分诊路由 Agent、症状问询 Agent、RAG Agent、报告解读 Agent、医生复核节点分别输入什么、输出什么？</p>
+                <em>重点准备 State 字段、节点输入输出、条件边、中断恢复和 HitL。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="多 Agent 与 LangGraph" data-search="多 Agent 与 LangGraph LangGraph 里的 State 结构具体有哪些字段？ 高 重点准备 State 字段、节点输入输出、条件边、中断恢复和 HitL。">
+              <div class="pressure-num">024</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>多 Agent 与 LangGraph</span>
+                  <b>高风险</b>
+                </div>
+                <p>LangGraph 里的 State 结构具体有哪些字段？</p>
+                <em>重点准备 State 字段、节点输入输出、条件边、中断恢复和 HitL。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="多 Agent 与 LangGraph" data-search="多 Agent 与 LangGraph 你为什么用 TypedDict + Pydantic？两者分别解决什么问题？ 高 重点准备 State 字段、节点输入输出、条件边、中断恢复和 HitL。">
+              <div class="pressure-num">025</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>多 Agent 与 LangGraph</span>
+                  <b>高风险</b>
+                </div>
+                <p>你为什么用 TypedDict + Pydantic？两者分别解决什么问题？</p>
+                <em>重点准备 State 字段、节点输入输出、条件边、中断恢复和 HitL。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="多 Agent 与 LangGraph" data-search="多 Agent 与 LangGraph 状态机的节点流转规则是什么？主诉、现病史、既往史、过敏史为什么按这个顺序？ 高 重点准备 State 字段、节点输入输出、条件边、中断恢复和 HitL。">
+              <div class="pressure-num">026</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>多 Agent 与 LangGraph</span>
+                  <b>高风险</b>
+                </div>
+                <p>状态机的节点流转规则是什么？主诉、现病史、既往史、过敏史为什么按这个顺序？</p>
+                <em>重点准备 State 字段、节点输入输出、条件边、中断恢复和 HitL。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="多 Agent 与 LangGraph" data-search="多 Agent 与 LangGraph 如果用户中途补充“我现在胸口疼”，状态机怎么中断？ 高 重点准备 State 字段、节点输入输出、条件边、中断恢复和 HitL。">
+              <div class="pressure-num">027</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>多 Agent 与 LangGraph</span>
+                  <b>高风险</b>
+                </div>
+                <p>如果用户中途补充“我现在胸口疼”，状态机怎么中断？</p>
+                <em>重点准备 State 字段、节点输入输出、条件边、中断恢复和 HitL。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="多 Agent 与 LangGraph" data-search="多 Agent 与 LangGraph LangGraph 的 conditional edge 你们怎么设计？ 高 重点准备 State 字段、节点输入输出、条件边、中断恢复和 HitL。">
+              <div class="pressure-num">028</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>多 Agent 与 LangGraph</span>
+                  <b>高风险</b>
+                </div>
+                <p>LangGraph 的 conditional edge 你们怎么设计？</p>
+                <em>重点准备 State 字段、节点输入输出、条件边、中断恢复和 HitL。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="多 Agent 与 LangGraph" data-search="多 Agent 与 LangGraph 节点执行失败怎么恢复？比如 RAG 节点超时、LLM 返回格式错误怎么办？ 高 重点准备 State 字段、节点输入输出、条件边、中断恢复和 HitL。">
+              <div class="pressure-num">029</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>多 Agent 与 LangGraph</span>
+                  <b>高风险</b>
+                </div>
+                <p>节点执行失败怎么恢复？比如 RAG 节点超时、LLM 返回格式错误怎么办？</p>
+                <em>重点准备 State 字段、节点输入输出、条件边、中断恢复和 HitL。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="多 Agent 与 LangGraph" data-search="多 Agent 与 LangGraph LangGraph 结果持久化了吗？如果页面刷新，问诊状态能不能恢复？ 高 重点准备 State 字段、节点输入输出、条件边、中断恢复和 HitL。">
+              <div class="pressure-num">030</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>多 Agent 与 LangGraph</span>
+                  <b>高风险</b>
+                </div>
+                <p>LangGraph 结果持久化了吗？如果页面刷新，问诊状态能不能恢复？</p>
+                <em>重点准备 State 字段、节点输入输出、条件边、中断恢复和 HitL。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="多 Agent 与 LangGraph" data-search="多 Agent 与 LangGraph 你们有没有用 checkpoint？如果没有，为什么？ 高 重点准备 State 字段、节点输入输出、条件边、中断恢复和 HitL。">
+              <div class="pressure-num">031</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>多 Agent 与 LangGraph</span>
+                  <b>高风险</b>
+                </div>
+                <p>你们有没有用 checkpoint？如果没有，为什么？</p>
+                <em>重点准备 State 字段、节点输入输出、条件边、中断恢复和 HitL。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="多 Agent 与 LangGraph" data-search="多 Agent 与 LangGraph 多 Agent 之间怎么避免上下文越来越长？ 高 重点准备 State 字段、节点输入输出、条件边、中断恢复和 HitL。">
+              <div class="pressure-num">032</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>多 Agent 与 LangGraph</span>
+                  <b>高风险</b>
+                </div>
+                <p>多 Agent 之间怎么避免上下文越来越长？</p>
+                <em>重点准备 State 字段、节点输入输出、条件边、中断恢复和 HitL。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="多 Agent 与 LangGraph" data-search="多 Agent 与 LangGraph 每个 Agent 的 Prompt 是固定的，还是根据状态动态拼接？ 高 重点准备 State 字段、节点输入输出、条件边、中断恢复和 HitL。">
+              <div class="pressure-num">033</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>多 Agent 与 LangGraph</span>
+                  <b>高风险</b>
+                </div>
+                <p>每个 Agent 的 Prompt 是固定的，还是根据状态动态拼接？</p>
+                <em>重点准备 State 字段、节点输入输出、条件边、中断恢复和 HitL。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="多 Agent 与 LangGraph" data-search="多 Agent 与 LangGraph 医生 HitL 在 LangGraph 里怎么实现？是 interrupt、状态标记，还是单独接口？ 高 重点准备 State 字段、节点输入输出、条件边、中断恢复和 HitL。">
+              <div class="pressure-num">034</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>多 Agent 与 LangGraph</span>
+                  <b>高风险</b>
+                </div>
+                <p>医生 HitL 在 LangGraph 里怎么实现？是 interrupt、状态标记，还是单独接口？</p>
+                <em>重点准备 State 字段、节点输入输出、条件边、中断恢复和 HitL。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="多 Agent 与 LangGraph" data-search="多 Agent 与 LangGraph 如果医生修改了 AI 建议，修改后的结果会不会反写到 bad case 里？ 高 重点准备 State 字段、节点输入输出、条件边、中断恢复和 HitL。">
+              <div class="pressure-num">035</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>多 Agent 与 LangGraph</span>
+                  <b>高风险</b>
+                </div>
+                <p>如果医生修改了 AI 建议，修改后的结果会不会反写到 bad case 里？</p>
+                <em>重点准备 State 字段、节点输入输出、条件边、中断恢复和 HitL。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="医疗安全与高危规则" data-search="医疗安全与高危规则 你们高危词有哪些？胸痛、大出血、呼吸困难、意识丧失、自杀倾向之外还有什么？ 高 安全规则永远前置；宁可讲保守兜底，也不要讲 AI 自动诊断。">
+              <div class="pressure-num">036</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>医疗安全与高危规则</span>
+                  <b>高风险</b>
+                </div>
+                <p>你们高危词有哪些？胸痛、大出血、呼吸困难、意识丧失、自杀倾向之外还有什么？</p>
+                <em>安全规则永远前置；宁可讲保守兜底，也不要讲 AI 自动诊断。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="医疗安全与高危规则" data-search="医疗安全与高危规则 高危词是关键词匹配、正则、分类模型，还是 LLM 判断？ 高 安全规则永远前置；宁可讲保守兜底，也不要讲 AI 自动诊断。">
+              <div class="pressure-num">037</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>医疗安全与高危规则</span>
+                  <b>高风险</b>
+                </div>
+                <p>高危词是关键词匹配、正则、分类模型，还是 LLM 判断？</p>
+                <em>安全规则永远前置；宁可讲保守兜底，也不要讲 AI 自动诊断。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="医疗安全与高危规则" data-search="医疗安全与高危规则 如果用户说“我昨天胸痛，现在好了”，还要不要提示急诊？ 高 安全规则永远前置；宁可讲保守兜底，也不要讲 AI 自动诊断。">
+              <div class="pressure-num">038</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>医疗安全与高危规则</span>
+                  <b>高风险</b>
+                </div>
+                <p>如果用户说“我昨天胸痛，现在好了”，还要不要提示急诊？</p>
+                <em>安全规则永远前置；宁可讲保守兜底，也不要讲 AI 自动诊断。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="医疗安全与高危规则" data-search="医疗安全与高危规则 高危规则如何减少误报？如何减少漏报？ 高 安全规则永远前置；宁可讲保守兜底，也不要讲 AI 自动诊断。">
+              <div class="pressure-num">039</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>医疗安全与高危规则</span>
+                  <b>高风险</b>
+                </div>
+                <p>高危规则如何减少误报？如何减少漏报？</p>
+                <em>安全规则永远前置；宁可讲保守兜底，也不要讲 AI 自动诊断。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="医疗安全与高危规则" data-search="医疗安全与高危规则 你写 20 条高危及近似表达样例命中 19 条，漏掉的那条是什么？为什么漏？ 高 安全规则永远前置；宁可讲保守兜底，也不要讲 AI 自动诊断。">
+              <div class="pressure-num">040</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>医疗安全与高危规则</span>
+                  <b>高风险</b>
+                </div>
+                <p>你写 20 条高危及近似表达样例命中 19 条，漏掉的那条是什么？为什么漏？</p>
+                <em>安全规则永远前置；宁可讲保守兜底，也不要讲 AI 自动诊断。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="医疗安全与高危规则" data-search="医疗安全与高危规则 高危规则命中后为什么要跳过后续流程？ 高 安全规则永远前置；宁可讲保守兜底，也不要讲 AI 自动诊断。">
+              <div class="pressure-num">041</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>医疗安全与高危规则</span>
+                  <b>高风险</b>
+                </div>
+                <p>高危规则命中后为什么要跳过后续流程？</p>
+                <em>安全规则永远前置；宁可讲保守兜底，也不要讲 AI 自动诊断。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="医疗安全与高危规则" data-search="医疗安全与高危规则 安全规则前置是在前端、后端，还是 Agent 节点里？ 高 安全规则永远前置；宁可讲保守兜底，也不要讲 AI 自动诊断。">
+              <div class="pressure-num">042</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>医疗安全与高危规则</span>
+                  <b>高风险</b>
+                </div>
+                <p>安全规则前置是在前端、后端，还是 Agent 节点里？</p>
+                <em>安全规则永远前置；宁可讲保守兜底，也不要讲 AI 自动诊断。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="医疗安全与高危规则" data-search="医疗安全与高危规则 用户绕开规则，比如“胸口不舒服但不是疼”，系统怎么识别？ 高 安全规则永远前置；宁可讲保守兜底，也不要讲 AI 自动诊断。">
+              <div class="pressure-num">043</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>医疗安全与高危规则</span>
+                  <b>高风险</b>
+                </div>
+                <p>用户绕开规则，比如“胸口不舒服但不是疼”，系统怎么识别？</p>
+                <em>安全规则永远前置；宁可讲保守兜底，也不要讲 AI 自动诊断。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="医疗安全与高危规则" data-search="医疗安全与高危规则 拒答和转人工有什么区别？什么时候拒答，什么时候转医生复核？ 高 安全规则永远前置；宁可讲保守兜底，也不要讲 AI 自动诊断。">
+              <div class="pressure-num">044</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>医疗安全与高危规则</span>
+                  <b>高风险</b>
+                </div>
+                <p>拒答和转人工有什么区别？什么时候拒答，什么时候转医生复核？</p>
+                <em>安全规则永远前置；宁可讲保守兜底，也不要讲 AI 自动诊断。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="医疗安全与高危规则" data-search="医疗安全与高危规则 医疗免责声明放在哪里？Prompt 里、后端模板里，还是前端展示？ 高 安全规则永远前置；宁可讲保守兜底，也不要讲 AI 自动诊断。">
+              <div class="pressure-num">045</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>医疗安全与高危规则</span>
+                  <b>高风险</b>
+                </div>
+                <p>医疗免责声明放在哪里？Prompt 里、后端模板里，还是前端展示？</p>
+                <em>安全规则永远前置；宁可讲保守兜底，也不要讲 AI 自动诊断。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="RAG 知识库链路" data-search="RAG 知识库链路 你们为什么要做 FAQ + Hybrid RAG 双通路？ 高 要能从资料清洗讲到召回、重排、引用、拒答和 bad case 复盘。">
+              <div class="pressure-num">046</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>RAG 知识库链路</span>
+                  <b>高风险</b>
+                </div>
+                <p>你们为什么要做 FAQ + Hybrid RAG 双通路？</p>
+                <em>要能从资料清洗讲到召回、重排、引用、拒答和 bad case 复盘。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="RAG 知识库链路" data-search="RAG 知识库链路 FAQ 快速命中的判断条件是什么？相似度阈值怎么定？ 高 要能从资料清洗讲到召回、重排、引用、拒答和 bad case 复盘。">
+              <div class="pressure-num">047</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>RAG 知识库链路</span>
+                  <b>高风险</b>
+                </div>
+                <p>FAQ 快速命中的判断条件是什么？相似度阈值怎么定？</p>
+                <em>要能从资料清洗讲到召回、重排、引用、拒答和 bad case 复盘。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="RAG 知识库链路" data-search="RAG 知识库链路 FAQ 命中后还会不会走大模型？为什么？ 高 要能从资料清洗讲到召回、重排、引用、拒答和 bad case 复盘。">
+              <div class="pressure-num">048</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>RAG 知识库链路</span>
+                  <b>高风险</b>
+                </div>
+                <p>FAQ 命中后还会不会走大模型？为什么？</p>
+                <em>要能从资料清洗讲到召回、重排、引用、拒答和 bad case 复盘。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="RAG 知识库链路" data-search="RAG 知识库链路 Hybrid RAG 里 BM25 负责什么？Embedding 负责什么？ 高 要能从资料清洗讲到召回、重排、引用、拒答和 bad case 复盘。">
+              <div class="pressure-num">049</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>RAG 知识库链路</span>
+                  <b>高风险</b>
+                </div>
+                <p>Hybrid RAG 里 BM25 负责什么？Embedding 负责什么？</p>
+                <em>要能从资料清洗讲到召回、重排、引用、拒答和 bad case 复盘。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="RAG 知识库链路" data-search="RAG 知识库链路 Milvus 在项目里存什么？向量维度是多少？collection 怎么设计？ 高 要能从资料清洗讲到召回、重排、引用、拒答和 bad case 复盘。">
+              <div class="pressure-num">050</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>RAG 知识库链路</span>
+                  <b>高风险</b>
+                </div>
+                <p>Milvus 在项目里存什么？向量维度是多少？collection 怎么设计？</p>
+                <em>要能从资料清洗讲到召回、重排、引用、拒答和 bad case 复盘。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="RAG 知识库链路" data-search="RAG 知识库链路 BGE-M3 为什么适合医疗知识库？你用的是稠密向量还是稀疏向量？ 高 要能从资料清洗讲到召回、重排、引用、拒答和 bad case 复盘。">
+              <div class="pressure-num">051</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>RAG 知识库链路</span>
+                  <b>高风险</b>
+                </div>
+                <p>BGE-M3 为什么适合医疗知识库？你用的是稠密向量还是稀疏向量？</p>
+                <em>要能从资料清洗讲到召回、重排、引用、拒答和 bad case 复盘。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="RAG 知识库链路" data-search="RAG 知识库链路 BGE-Reranker 的输入输出是什么？为什么召回后还要重排？ 高 要能从资料清洗讲到召回、重排、引用、拒答和 bad case 复盘。">
+              <div class="pressure-num">052</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>RAG 知识库链路</span>
+                  <b>高风险</b>
+                </div>
+                <p>BGE-Reranker 的输入输出是什么？为什么召回后还要重排？</p>
+                <em>要能从资料清洗讲到召回、重排、引用、拒答和 bad case 复盘。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="RAG 知识库链路" data-search="RAG 知识库链路 你们 top_k、rerank_k 分别设置多少？依据是什么？ 高 要能从资料清洗讲到召回、重排、引用、拒答和 bad case 复盘。">
+              <div class="pressure-num">053</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>RAG 知识库链路</span>
+                  <b>高风险</b>
+                </div>
+                <p>你们 top_k、rerank_k 分别设置多少？依据是什么？</p>
+                <em>要能从资料清洗讲到召回、重排、引用、拒答和 bad case 复盘。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="RAG 知识库链路" data-search="RAG 知识库链路 分数融合怎么做？BM25 分数和向量分数量纲不同，如何归一化？ 高 要能从资料清洗讲到召回、重排、引用、拒答和 bad case 复盘。">
+              <div class="pressure-num">054</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>RAG 知识库链路</span>
+                  <b>高风险</b>
+                </div>
+                <p>分数融合怎么做？BM25 分数和向量分数量纲不同，如何归一化？</p>
+                <em>要能从资料清洗讲到召回、重排、引用、拒答和 bad case 复盘。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="RAG 知识库链路" data-search="RAG 知识库链路 父子分块是什么意思？为什么不用普通固定长度分块？ 高 要能从资料清洗讲到召回、重排、引用、拒答和 bad case 复盘。">
+              <div class="pressure-num">055</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>RAG 知识库链路</span>
+                  <b>高风险</b>
+                </div>
+                <p>父子分块是什么意思？为什么不用普通固定长度分块？</p>
+                <em>要能从资料清洗讲到召回、重排、引用、拒答和 bad case 复盘。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="RAG 知识库链路" data-search="RAG 知识库链路 分块长度怎么定？太长和太短分别有什么问题？ 高 要能从资料清洗讲到召回、重排、引用、拒答和 bad case 复盘。">
+              <div class="pressure-num">056</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>RAG 知识库链路</span>
+                  <b>高风险</b>
+                </div>
+                <p>分块长度怎么定？太长和太短分别有什么问题？</p>
+                <em>要能从资料清洗讲到召回、重排、引用、拒答和 bad case 复盘。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="RAG 知识库链路" data-search="RAG 知识库链路 元数据字段有哪些？科室、疾病、风险等级这些字段怎么参与过滤？ 高 要能从资料清洗讲到召回、重排、引用、拒答和 bad case 复盘。">
+              <div class="pressure-num">057</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>RAG 知识库链路</span>
+                  <b>高风险</b>
+                </div>
+                <p>元数据字段有哪些？科室、疾病、风险等级这些字段怎么参与过滤？</p>
+                <em>要能从资料清洗讲到召回、重排、引用、拒答和 bad case 复盘。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="RAG 知识库链路" data-search="RAG 知识库链路 答案引用来源怎么生成？引用的是父块还是子块？ 高 要能从资料清洗讲到召回、重排、引用、拒答和 bad case 复盘。">
+              <div class="pressure-num">058</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>RAG 知识库链路</span>
+                  <b>高风险</b>
+                </div>
+                <p>答案引用来源怎么生成？引用的是父块还是子块？</p>
+                <em>要能从资料清洗讲到召回、重排、引用、拒答和 bad case 复盘。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="RAG 知识库链路" data-search="RAG 知识库链路 如果检索不到资料，系统怎么回答？ 高 要能从资料清洗讲到召回、重排、引用、拒答和 bad case 复盘。">
+              <div class="pressure-num">059</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>RAG 知识库链路</span>
+                  <b>高风险</b>
+                </div>
+                <p>如果检索不到资料，系统怎么回答？</p>
+                <em>要能从资料清洗讲到召回、重排、引用、拒答和 bad case 复盘。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="RAG 知识库链路" data-search="RAG 知识库链路 如何避免模型拿到错误上下文后胡说？ 高 要能从资料清洗讲到召回、重排、引用、拒答和 bad case 复盘。">
+              <div class="pressure-num">060</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>RAG 知识库链路</span>
+                  <b>高风险</b>
+                </div>
+                <p>如何避免模型拿到错误上下文后胡说？</p>
+                <em>要能从资料清洗讲到召回、重排、引用、拒答和 bad case 复盘。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="RAG 知识库链路" data-search="RAG 知识库链路 你们 bad case 主要有哪些类型？召回错位、引用缺失、重排误判分别怎么修？ 高 要能从资料清洗讲到召回、重排、引用、拒答和 bad case 复盘。">
+              <div class="pressure-num">061</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>RAG 知识库链路</span>
+                  <b>高风险</b>
+                </div>
+                <p>你们 bad case 主要有哪些类型？召回错位、引用缺失、重排误判分别怎么修？</p>
+                <em>要能从资料清洗讲到召回、重排、引用、拒答和 bad case 复盘。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="RAG 知识库链路" data-search="RAG 知识库链路 RAGFlow 和 LangChain 在项目里分别承担什么？有没有重复？ 高 要能从资料清洗讲到召回、重排、引用、拒答和 bad case 复盘。">
+              <div class="pressure-num">062</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>RAG 知识库链路</span>
+                  <b>高风险</b>
+                </div>
+                <p>RAGFlow 和 LangChain 在项目里分别承担什么？有没有重复？</p>
+                <em>要能从资料清洗讲到召回、重排、引用、拒答和 bad case 复盘。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="评估指标与数据可信度" data-search="评估指标与数据可信度 你写内部 120 条标注问答集，这 120 条谁标注的？ 高 所有数字都要能解释样本量、分母、分子、标注来源和局限性。">
+              <div class="pressure-num">063</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>评估指标与数据可信度</span>
+                  <b>高风险</b>
+                </div>
+                <p>你写内部 120 条标注问答集，这 120 条谁标注的？</p>
+                <em>所有数字都要能解释样本量、分母、分子、标注来源和局限性。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="评估指标与数据可信度" data-search="评估指标与数据可信度 Recall@5 怎么计算？一个问题有多个正确文档时怎么算？ 高 所有数字都要能解释样本量、分母、分子、标注来源和局限性。">
+              <div class="pressure-num">064</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>评估指标与数据可信度</span>
+                  <b>高风险</b>
+                </div>
+                <p>Recall@5 怎么计算？一个问题有多个正确文档时怎么算？</p>
+                <em>所有数字都要能解释样本量、分母、分子、标注来源和局限性。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="评估指标与数据可信度" data-search="评估指标与数据可信度 Top5 召回率从 72% 到 86%，具体做了哪些改动带来提升？ 高 所有数字都要能解释样本量、分母、分子、标注来源和局限性。">
+              <div class="pressure-num">065</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>评估指标与数据可信度</span>
+                  <b>高风险</b>
+                </div>
+                <p>Top5 召回率从 72% 到 86%，具体做了哪些改动带来提升？</p>
+                <em>所有数字都要能解释样本量、分母、分子、标注来源和局限性。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="评估指标与数据可信度" data-search="评估指标与数据可信度 引用命中率是什么意思？和 Recall@5 有什么区别？ 高 所有数字都要能解释样本量、分母、分子、标注来源和局限性。">
+              <div class="pressure-num">066</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>评估指标与数据可信度</span>
+                  <b>高风险</b>
+                </div>
+                <p>引用命中率是什么意思？和 Recall@5 有什么区别？</p>
+                <em>所有数字都要能解释样本量、分母、分子、标注来源和局限性。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="评估指标与数据可信度" data-search="评估指标与数据可信度 拒答准确性怎么评估？正样本、负样本怎么定义？ 高 所有数字都要能解释样本量、分母、分子、标注来源和局限性。">
+              <div class="pressure-num">067</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>评估指标与数据可信度</span>
+                  <b>高风险</b>
+                </div>
+                <p>拒答准确性怎么评估？正样本、负样本怎么定义？</p>
+                <em>所有数字都要能解释样本量、分母、分子、标注来源和局限性。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="评估指标与数据可信度" data-search="评估指标与数据可信度 高危提示/拒答/人工复核触发率 95%+ 是否可能误报很高？ 高 所有数字都要能解释样本量、分母、分子、标注来源和局限性。">
+              <div class="pressure-num">068</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>评估指标与数据可信度</span>
+                  <b>高风险</b>
+                </div>
+                <p>高危提示/拒答/人工复核触发率 95%+ 是否可能误报很高？</p>
+                <em>所有数字都要能解释样本量、分母、分子、标注来源和局限性。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="评估指标与数据可信度" data-search="评估指标与数据可信度 为什么 RAG 链路 P95 不含大模型生成耗时？真实用户等待时间是多少？ 高 所有数字都要能解释样本量、分母、分子、标注来源和局限性。">
+              <div class="pressure-num">069</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>评估指标与数据可信度</span>
+                  <b>高风险</b>
+                </div>
+                <p>为什么 RAG 链路 P95 不含大模型生成耗时？真实用户等待时间是多少？</p>
+                <em>所有数字都要能解释样本量、分母、分子、标注来源和局限性。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="评估指标与数据可信度" data-search="评估指标与数据可信度 FAQ P95 300ms 是前端到后端整体耗时，还是接口内部耗时？ 高 所有数字都要能解释样本量、分母、分子、标注来源和局限性。">
+              <div class="pressure-num">070</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>评估指标与数据可信度</span>
+                  <b>高风险</b>
+                </div>
+                <p>FAQ P95 300ms 是前端到后端整体耗时，还是接口内部耗时？</p>
+                <em>所有数字都要能解释样本量、分母、分子、标注来源和局限性。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="评估指标与数据可信度" data-search="评估指标与数据可信度 多 Agent 并行后耗时降低 70%，基准是什么？串行耗时多少，并行耗时多少？ 高 所有数字都要能解释样本量、分母、分子、标注来源和局限性。">
+              <div class="pressure-num">071</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>评估指标与数据可信度</span>
+                  <b>高风险</b>
+                </div>
+                <p>多 Agent 并行后耗时降低 70%，基准是什么？串行耗时多少，并行耗时多少？</p>
+                <em>所有数字都要能解释样本量、分母、分子、标注来源和局限性。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="评估指标与数据可信度" data-search="评估指标与数据可信度 异常项定位与通俗解释一致率 90% 是谁判断一致？医生、测试，还是你自己？ 高 所有数字都要能解释样本量、分母、分子、标注来源和局限性。">
+              <div class="pressure-num">072</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>评估指标与数据可信度</span>
+                  <b>高风险</b>
+                </div>
+                <p>异常项定位与通俗解释一致率 90% 是谁判断一致？医生、测试，还是你自己？</p>
+                <em>所有数字都要能解释样本量、分母、分子、标注来源和局限性。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="评估指标与数据可信度" data-search="评估指标与数据可信度 50 条预问诊样例和 20 份报告样例，数据量会不会太小？ 高 所有数字都要能解释样本量、分母、分子、标注来源和局限性。">
+              <div class="pressure-num">073</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>评估指标与数据可信度</span>
+                  <b>高风险</b>
+                </div>
+                <p>50 条预问诊样例和 20 份报告样例，数据量会不会太小？</p>
+                <em>所有数字都要能解释样本量、分母、分子、标注来源和局限性。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="评估指标与数据可信度" data-search="评估指标与数据可信度 如果面试官说这些指标像编的，你怎么解释它们只是开发测试指标？ 高 所有数字都要能解释样本量、分母、分子、标注来源和局限性。">
+              <div class="pressure-num">074</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>评估指标与数据可信度</span>
+                  <b>高风险</b>
+                </div>
+                <p>如果面试官说这些指标像编的，你怎么解释它们只是开发测试指标？</p>
+                <em>所有数字都要能解释样本量、分母、分子、标注来源和局限性。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-mid" data-pressure-cat="报告解读与 PDF 解析" data-search="报告解读与 PDF 解析 PyMuPDF 在项目里具体做什么？提取 PDF 文本还是表格？ 中 别夸大 PyMuPDF；讲清文本型 PDF、扫描件 OCR、指标参考范围和异常提示边界。">
+              <div class="pressure-num">075</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>报告解读与 PDF 解析</span>
+                  <b>中风险</b>
+                </div>
+                <p>PyMuPDF 在项目里具体做什么？提取 PDF 文本还是表格？</p>
+                <em>别夸大 PyMuPDF；讲清文本型 PDF、扫描件 OCR、指标参考范围和异常提示边界。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-mid" data-pressure-cat="报告解读与 PDF 解析" data-search="报告解读与 PDF 解析 体检报告格式不统一，字段错位怎么处理？ 中 别夸大 PyMuPDF；讲清文本型 PDF、扫描件 OCR、指标参考范围和异常提示边界。">
+              <div class="pressure-num">076</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>报告解读与 PDF 解析</span>
+                  <b>中风险</b>
+                </div>
+                <p>体检报告格式不统一，字段错位怎么处理？</p>
+                <em>别夸大 PyMuPDF；讲清文本型 PDF、扫描件 OCR、指标参考范围和异常提示边界。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-mid" data-pressure-cat="报告解读与 PDF 解析" data-search="报告解读与 PDF 解析 血常规、肝功、血脂这些指标的参考范围从哪里来？ 中 别夸大 PyMuPDF；讲清文本型 PDF、扫描件 OCR、指标参考范围和异常提示边界。">
+              <div class="pressure-num">077</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>报告解读与 PDF 解析</span>
+                  <b>中风险</b>
+                </div>
+                <p>血常规、肝功、血脂这些指标的参考范围从哪里来？</p>
+                <em>别夸大 PyMuPDF；讲清文本型 PDF、扫描件 OCR、指标参考范围和异常提示边界。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-mid" data-pressure-cat="报告解读与 PDF 解析" data-search="报告解读与 PDF 解析 同一个指标不同性别、年龄参考范围不同，你们怎么处理？ 中 别夸大 PyMuPDF；讲清文本型 PDF、扫描件 OCR、指标参考范围和异常提示边界。">
+              <div class="pressure-num">078</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>报告解读与 PDF 解析</span>
+                  <b>中风险</b>
+                </div>
+                <p>同一个指标不同性别、年龄参考范围不同，你们怎么处理？</p>
+                <em>别夸大 PyMuPDF；讲清文本型 PDF、扫描件 OCR、指标参考范围和异常提示边界。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-mid" data-pressure-cat="报告解读与 PDF 解析" data-search="报告解读与 PDF 解析 OCR 错字、单位识别错误怎么办？ 中 别夸大 PyMuPDF；讲清文本型 PDF、扫描件 OCR、指标参考范围和异常提示边界。">
+              <div class="pressure-num">079</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>报告解读与 PDF 解析</span>
+                  <b>中风险</b>
+                </div>
+                <p>OCR 错字、单位识别错误怎么办？</p>
+                <em>别夸大 PyMuPDF；讲清文本型 PDF、扫描件 OCR、指标参考范围和异常提示边界。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-mid" data-pressure-cat="报告解读与 PDF 解析" data-search="报告解读与 PDF 解析 报告解读为什么用并行评审？哪些任务可以并行，哪些不能并行？ 中 别夸大 PyMuPDF；讲清文本型 PDF、扫描件 OCR、指标参考范围和异常提示边界。">
+              <div class="pressure-num">080</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>报告解读与 PDF 解析</span>
+                  <b>中风险</b>
+                </div>
+                <p>报告解读为什么用并行评审？哪些任务可以并行，哪些不能并行？</p>
+                <em>别夸大 PyMuPDF；讲清文本型 PDF、扫描件 OCR、指标参考范围和异常提示边界。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-mid" data-pressure-cat="报告解读与 PDF 解析" data-search="报告解读与 PDF 解析 asyncio.gather 中某一个报告项解析失败，会不会影响全部结果？ 中 别夸大 PyMuPDF；讲清文本型 PDF、扫描件 OCR、指标参考范围和异常提示边界。">
+              <div class="pressure-num">081</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>报告解读与 PDF 解析</span>
+                  <b>中风险</b>
+                </div>
+                <p>asyncio.gather 中某一个报告项解析失败，会不会影响全部结果？</p>
+                <em>别夸大 PyMuPDF；讲清文本型 PDF、扫描件 OCR、指标参考范围和异常提示边界。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-mid" data-pressure-cat="报告解读与 PDF 解析" data-search="报告解读与 PDF 解析 并发调用 LLM 怎么限流？怎么避免接口超时？ 中 别夸大 PyMuPDF；讲清文本型 PDF、扫描件 OCR、指标参考范围和异常提示边界。">
+              <div class="pressure-num">082</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>报告解读与 PDF 解析</span>
+                  <b>中风险</b>
+                </div>
+                <p>并发调用 LLM 怎么限流？怎么避免接口超时？</p>
+                <em>别夸大 PyMuPDF；讲清文本型 PDF、扫描件 OCR、指标参考范围和异常提示边界。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-mid" data-pressure-cat="报告解读与 PDF 解析" data-search="报告解读与 PDF 解析 异常项解释为什么不能写成诊断结论？前端如何提示？ 中 别夸大 PyMuPDF；讲清文本型 PDF、扫描件 OCR、指标参考范围和异常提示边界。">
+              <div class="pressure-num">083</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>报告解读与 PDF 解析</span>
+                  <b>中风险</b>
+                </div>
+                <p>异常项解释为什么不能写成诊断结论？前端如何提示？</p>
+                <em>别夸大 PyMuPDF；讲清文本型 PDF、扫描件 OCR、指标参考范围和异常提示边界。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-mid" data-pressure-cat="后端与数据链路" data-search="后端与数据链路 FastAPI 里你封装了哪些接口？问答接口、反馈接口、检索接口分别怎么设计？ 中 准备接口字段、日志字段、异常处理、缓存策略和数据库边界。">
+              <div class="pressure-num">084</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>后端与数据链路</span>
+                  <b>中风险</b>
+                </div>
+                <p>FastAPI 里你封装了哪些接口？问答接口、反馈接口、检索接口分别怎么设计？</p>
+                <em>准备接口字段、日志字段、异常处理、缓存策略和数据库边界。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-mid" data-pressure-cat="后端与数据链路" data-search="后端与数据链路 请求和响应 JSON 大概长什么样？ 中 准备接口字段、日志字段、异常处理、缓存策略和数据库边界。">
+              <div class="pressure-num">085</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>后端与数据链路</span>
+                  <b>中风险</b>
+                </div>
+                <p>请求和响应 JSON 大概长什么样？</p>
+                <em>准备接口字段、日志字段、异常处理、缓存策略和数据库边界。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-mid" data-pressure-cat="后端与数据链路" data-search="后端与数据链路 Pydantic 模型怎么定义？校验失败怎么返回？ 中 准备接口字段、日志字段、异常处理、缓存策略和数据库边界。">
+              <div class="pressure-num">086</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>后端与数据链路</span>
+                  <b>中风险</b>
+                </div>
+                <p>Pydantic 模型怎么定义？校验失败怎么返回？</p>
+                <em>准备接口字段、日志字段、异常处理、缓存策略和数据库边界。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-mid" data-pressure-cat="后端与数据链路" data-search="后端与数据链路 MySQL 和 PostgreSQL 为什么同时出现？分别存什么？ 中 准备接口字段、日志字段、异常处理、缓存策略和数据库边界。">
+              <div class="pressure-num">087</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>后端与数据链路</span>
+                  <b>中风险</b>
+                </div>
+                <p>MySQL 和 PostgreSQL 为什么同时出现？分别存什么？</p>
+                <em>准备接口字段、日志字段、异常处理、缓存策略和数据库边界。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-mid" data-pressure-cat="后端与数据链路" data-search="后端与数据链路 Redis 在项目里做缓存、会话还是限流？ 中 准备接口字段、日志字段、异常处理、缓存策略和数据库边界。">
+              <div class="pressure-num">088</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>后端与数据链路</span>
+                  <b>中风险</b>
+                </div>
+                <p>Redis 在项目里做缓存、会话还是限流？</p>
+                <em>准备接口字段、日志字段、异常处理、缓存策略和数据库边界。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-mid" data-pressure-cat="后端与数据链路" data-search="后端与数据链路 用户 query、召回文档、重排分数、引用来源这些日志存在哪里？ 中 准备接口字段、日志字段、异常处理、缓存策略和数据库边界。">
+              <div class="pressure-num">089</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>后端与数据链路</span>
+                  <b>中风险</b>
+                </div>
+                <p>用户 query、召回文档、重排分数、引用来源这些日志存在哪里？</p>
+                <em>准备接口字段、日志字段、异常处理、缓存策略和数据库边界。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-mid" data-pressure-cat="后端与数据链路" data-search="后端与数据链路 如何做异常处理？LLM 超时、Milvus 连接失败、数据库失败分别怎么处理？ 中 准备接口字段、日志字段、异常处理、缓存策略和数据库边界。">
+              <div class="pressure-num">090</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>后端与数据链路</span>
+                  <b>中风险</b>
+                </div>
+                <p>如何做异常处理？LLM 超时、Milvus 连接失败、数据库失败分别怎么处理？</p>
+                <em>准备接口字段、日志字段、异常处理、缓存策略和数据库边界。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-mid" data-pressure-cat="后端与数据链路" data-search="后端与数据链路 CORS 问题你怎么解决？前后端联调遇到过什么坑？ 中 准备接口字段、日志字段、异常处理、缓存策略和数据库边界。">
+              <div class="pressure-num">091</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>后端与数据链路</span>
+                  <b>中风险</b>
+                </div>
+                <p>CORS 问题你怎么解决？前后端联调遇到过什么坑？</p>
+                <em>准备接口字段、日志字段、异常处理、缓存策略和数据库边界。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-mid" data-pressure-cat="后端与数据链路" data-search="后端与数据链路 接口耗时怎么统计？中间每个节点耗时有没有埋点？ 中 准备接口字段、日志字段、异常处理、缓存策略和数据库边界。">
+              <div class="pressure-num">092</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>后端与数据链路</span>
+                  <b>中风险</b>
+                </div>
+                <p>接口耗时怎么统计？中间每个节点耗时有没有埋点？</p>
+                <em>准备接口字段、日志字段、异常处理、缓存策略和数据库边界。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-mid" data-pressure-cat="后端与数据链路" data-search="后端与数据链路 你们有没有做鉴权？医生端和患者端权限怎么区分？ 中 准备接口字段、日志字段、异常处理、缓存策略和数据库边界。">
+              <div class="pressure-num">093</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>后端与数据链路</span>
+                  <b>中风险</b>
+                </div>
+                <p>你们有没有做鉴权？医生端和患者端权限怎么区分？</p>
+                <em>准备接口字段、日志字段、异常处理、缓存策略和数据库边界。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-mid" data-pressure-cat="前端 React / TypeScript / Ant Design" data-search="前端 React / TypeScript / Ant Design 前端你做了哪些页面？问答页、引用来源、报告解读、医生复核分别长什么样？ 中 讲页面状态、异常状态、引用展示、流式展示和类型约束。">
+              <div class="pressure-num">094</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>前端 React / TypeScript / Ant Design</span>
+                  <b>中风险</b>
+                </div>
+                <p>前端你做了哪些页面？问答页、引用来源、报告解读、医生复核分别长什么样？</p>
+                <em>讲页面状态、异常状态、引用展示、流式展示和类型约束。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-mid" data-pressure-cat="前端 React / TypeScript / Ant Design" data-search="前端 React / TypeScript / Ant Design 流式输出怎么展示？是 SSE、WebSocket，还是普通轮询？ 中 讲页面状态、异常状态、引用展示、流式展示和类型约束。">
+              <div class="pressure-num">095</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>前端 React / TypeScript / Ant Design</span>
+                  <b>中风险</b>
+                </div>
+                <p>流式输出怎么展示？是 SSE、WebSocket，还是普通轮询？</p>
+                <em>讲页面状态、异常状态、引用展示、流式展示和类型约束。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-mid" data-pressure-cat="前端 React / TypeScript / Ant Design" data-search="前端 React / TypeScript / Ant Design 加载状态怎么设计？RAG 检索中、LLM 生成中、医生复核中如何区分？ 中 讲页面状态、异常状态、引用展示、流式展示和类型约束。">
+              <div class="pressure-num">096</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>前端 React / TypeScript / Ant Design</span>
+                  <b>中风险</b>
+                </div>
+                <p>加载状态怎么设计？RAG 检索中、LLM 生成中、医生复核中如何区分？</p>
+                <em>讲页面状态、异常状态、引用展示、流式展示和类型约束。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-mid" data-pressure-cat="前端 React / TypeScript / Ant Design" data-search="前端 React / TypeScript / Ant Design 引用来源怎么展示？点击引用能不能定位原文片段？ 中 讲页面状态、异常状态、引用展示、流式展示和类型约束。">
+              <div class="pressure-num">097</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>前端 React / TypeScript / Ant Design</span>
+                  <b>中风险</b>
+                </div>
+                <p>引用来源怎么展示？点击引用能不能定位原文片段？</p>
+                <em>讲页面状态、异常状态、引用展示、流式展示和类型约束。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-mid" data-pressure-cat="前端 React / TypeScript / Ant Design" data-search="前端 React / TypeScript / Ant Design 风险提示和免责声明如何避免用户忽略？ 中 讲页面状态、异常状态、引用展示、流式展示和类型约束。">
+              <div class="pressure-num">098</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>前端 React / TypeScript / Ant Design</span>
+                  <b>中风险</b>
+                </div>
+                <p>风险提示和免责声明如何避免用户忽略？</p>
+                <em>讲页面状态、异常状态、引用展示、流式展示和类型约束。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-mid" data-pressure-cat="前端 React / TypeScript / Ant Design" data-search="前端 React / TypeScript / Ant Design 异常状态有哪些？无资料、接口超时、模型拒答、医生待复核怎么展示？ 中 讲页面状态、异常状态、引用展示、流式展示和类型约束。">
+              <div class="pressure-num">099</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>前端 React / TypeScript / Ant Design</span>
+                  <b>中风险</b>
+                </div>
+                <p>异常状态有哪些？无资料、接口超时、模型拒答、医生待复核怎么展示？</p>
+                <em>讲页面状态、异常状态、引用展示、流式展示和类型约束。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-mid" data-pressure-cat="前端 React / TypeScript / Ant Design" data-search="前端 React / TypeScript / Ant Design TypeScript 类型和后端 Pydantic 类型如何保持一致？ 中 讲页面状态、异常状态、引用展示、流式展示和类型约束。">
+              <div class="pressure-num">100</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>前端 React / TypeScript / Ant Design</span>
+                  <b>中风险</b>
+                </div>
+                <p>TypeScript 类型和后端 Pydantic 类型如何保持一致？</p>
+                <em>讲页面状态、异常状态、引用展示、流式展示和类型约束。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-mid" data-pressure-cat="前端 React / TypeScript / Ant Design" data-search="前端 React / TypeScript / Ant Design Ant Design 表单校验做了哪些？年龄、症状、报告上传怎么校验？ 中 讲页面状态、异常状态、引用展示、流式展示和类型约束。">
+              <div class="pressure-num">101</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>前端 React / TypeScript / Ant Design</span>
+                  <b>中风险</b>
+                </div>
+                <p>Ant Design 表单校验做了哪些？年龄、症状、报告上传怎么校验？</p>
+                <em>讲页面状态、异常状态、引用展示、流式展示和类型约束。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-mid" data-pressure-cat="前端 React / TypeScript / Ant Design" data-search="前端 React / TypeScript / Ant Design 如果用户连续提问，前端如何维护会话上下文？ 中 讲页面状态、异常状态、引用展示、流式展示和类型约束。">
+              <div class="pressure-num">102</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>前端 React / TypeScript / Ant Design</span>
+                  <b>中风险</b>
+                </div>
+                <p>如果用户连续提问，前端如何维护会话上下文？</p>
+                <em>讲页面状态、异常状态、引用展示、流式展示和类型约束。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-mid" data-pressure-cat="模型与 Prompt" data-search="模型与 Prompt Qwen 在项目里负责什么？生成回答、结构化抽取，还是报告解释？ 中 把自己定位成模型应用，不要硬装训练和底层算法专家。">
+              <div class="pressure-num">103</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>模型与 Prompt</span>
+                  <b>中风险</b>
+                </div>
+                <p>Qwen 在项目里负责什么？生成回答、结构化抽取，还是报告解释？</p>
+                <em>把自己定位成模型应用，不要硬装训练和底层算法专家。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-mid" data-pressure-cat="模型与 Prompt" data-search="模型与 Prompt 你用的 Qwen 是本地部署还是 API？ 中 把自己定位成模型应用，不要硬装训练和底层算法专家。">
+              <div class="pressure-num">104</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>模型与 Prompt</span>
+                  <b>中风险</b>
+                </div>
+                <p>你用的 Qwen 是本地部署还是 API？</p>
+                <em>把自己定位成模型应用，不要硬装训练和底层算法专家。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-mid" data-pressure-cat="模型与 Prompt" data-search="模型与 Prompt Prompt 里如何约束不能诊断、必须引用、无依据拒答？ 中 把自己定位成模型应用，不要硬装训练和底层算法专家。">
+              <div class="pressure-num">105</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>模型与 Prompt</span>
+                  <b>中风险</b>
+                </div>
+                <p>Prompt 里如何约束不能诊断、必须引用、无依据拒答？</p>
+                <em>把自己定位成模型应用，不要硬装训练和底层算法专家。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-mid" data-pressure-cat="模型与 Prompt" data-search="模型与 Prompt 结构化输出怎么保证稳定？JSON 解析失败怎么办？ 中 把自己定位成模型应用，不要硬装训练和底层算法专家。">
+              <div class="pressure-num">106</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>模型与 Prompt</span>
+                  <b>中风险</b>
+                </div>
+                <p>结构化输出怎么保证稳定？JSON 解析失败怎么办？</p>
+                <em>把自己定位成模型应用，不要硬装训练和底层算法专家。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-mid" data-pressure-cat="模型与 Prompt" data-search="模型与 Prompt 为什么不用微调模型，而是用 Prompt + RAG？ 中 把自己定位成模型应用，不要硬装训练和底层算法专家。">
+              <div class="pressure-num">107</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>模型与 Prompt</span>
+                  <b>中风险</b>
+                </div>
+                <p>为什么不用微调模型，而是用 Prompt + RAG？</p>
+                <em>把自己定位成模型应用，不要硬装训练和底层算法专家。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-mid" data-pressure-cat="模型与 Prompt" data-search="模型与 Prompt RoBERTa-wwm-ext、RexUniNLU/DeBERTa 写在技能里，项目里实际用了吗？ 中 把自己定位成模型应用，不要硬装训练和底层算法专家。">
+              <div class="pressure-num">108</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>模型与 Prompt</span>
+                  <b>中风险</b>
+                </div>
+                <p>RoBERTa-wwm-ext、RexUniNLU/DeBERTa 写在技能里，项目里实际用了吗？</p>
+                <em>把自己定位成模型应用，不要硬装训练和底层算法专家。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-mid" data-pressure-cat="模型与 Prompt" data-search="模型与 Prompt Macro F1、Issue Recall、MAE 分别适合评估什么任务？ 中 把自己定位成模型应用，不要硬装训练和底层算法专家。">
+              <div class="pressure-num">109</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>模型与 Prompt</span>
+                  <b>中风险</b>
+                </div>
+                <p>Macro F1、Issue Recall、MAE 分别适合评估什么任务？</p>
+                <em>把自己定位成模型应用，不要硬装训练和底层算法专家。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-mid" data-pressure-cat="模型与 Prompt" data-search="模型与 Prompt 如果面试官让你解释 Transformer 注意力机制，你能讲到 Q/K/V 吗？ 中 把自己定位成模型应用，不要硬装训练和底层算法专家。">
+              <div class="pressure-num">110</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>模型与 Prompt</span>
+                  <b>中风险</b>
+                </div>
+                <p>如果面试官让你解释 Transformer 注意力机制，你能讲到 Q/K/V 吗？</p>
+                <em>把自己定位成模型应用，不要硬装训练和底层算法专家。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="简历语言与可信度压力题" data-search="简历语言与可信度压力题 你说熟悉 Agent Workflow 工程化流程，请举一个你亲自解决的工程问题。 高 每个抽象词都要能落到一个具体例子，尤其是异常恢复、持久化和 bad case。">
+              <div class="pressure-num">111</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>简历语言与可信度压力题</span>
+                  <b>高风险</b>
+                </div>
+                <p>你说熟悉 Agent Workflow 工程化流程，请举一个你亲自解决的工程问题。</p>
+                <em>每个抽象词都要能落到一个具体例子，尤其是异常恢复、持久化和 bad case。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="简历语言与可信度压力题" data-search="简历语言与可信度压力题 你说异常恢复，具体恢复了什么异常？ 高 每个抽象词都要能落到一个具体例子，尤其是异常恢复、持久化和 bad case。">
+              <div class="pressure-num">112</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>简历语言与可信度压力题</span>
+                  <b>高风险</b>
+                </div>
+                <p>你说异常恢复，具体恢复了什么异常？</p>
+                <em>每个抽象词都要能落到一个具体例子，尤其是异常恢复、持久化和 bad case。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="简历语言与可信度压力题" data-search="简历语言与可信度压力题 你说结果持久化，持久化到哪里？表结构是什么？ 高 每个抽象词都要能落到一个具体例子，尤其是异常恢复、持久化和 bad case。">
+              <div class="pressure-num">113</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>简历语言与可信度压力题</span>
+                  <b>高风险</b>
+                </div>
+                <p>你说结果持久化，持久化到哪里？表结构是什么？</p>
+                <em>每个抽象词都要能落到一个具体例子，尤其是异常恢复、持久化和 bad case。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="简历语言与可信度压力题" data-search="简历语言与可信度压力题 你说 bad case 复盘，拿一个真实 bad case 讲完整闭环。 高 每个抽象词都要能落到一个具体例子，尤其是异常恢复、持久化和 bad case。">
+              <div class="pressure-num">114</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>简历语言与可信度压力题</span>
+                  <b>高风险</b>
+                </div>
+                <p>你说 bad case 复盘，拿一个真实 bad case 讲完整闭环。</p>
+                <em>每个抽象词都要能落到一个具体例子，尤其是异常恢复、持久化和 bad case。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="简历语言与可信度压力题" data-search="简历语言与可信度压力题 你说降低参数传递和格式解析成本，怎么量化这个成本？ 高 每个抽象词都要能落到一个具体例子，尤其是异常恢复、持久化和 bad case。">
+              <div class="pressure-num">115</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>简历语言与可信度压力题</span>
+                  <b>高风险</b>
+                </div>
+                <p>你说降低参数传递和格式解析成本，怎么量化这个成本？</p>
+                <em>每个抽象词都要能落到一个具体例子，尤其是异常恢复、持久化和 bad case。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="简历语言与可信度压力题" data-search="简历语言与可信度压力题 你说覆盖导诊咨询、疾病科普、用药说明、检查注意事项和急救提示，每类各举一个问题。 高 每个抽象词都要能落到一个具体例子，尤其是异常恢复、持久化和 bad case。">
+              <div class="pressure-num">116</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>简历语言与可信度压力题</span>
+                  <b>高风险</b>
+                </div>
+                <p>你说覆盖导诊咨询、疾病科普、用药说明、检查注意事项和急救提示，每类各举一个问题。</p>
+                <em>每个抽象词都要能落到一个具体例子，尤其是异常恢复、持久化和 bad case。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="简历语言与可信度压力题" data-search="简历语言与可信度压力题 你说减少模型直接给出诊断结论，具体 Prompt 怎么写？ 高 每个抽象词都要能落到一个具体例子，尤其是异常恢复、持久化和 bad case。">
+              <div class="pressure-num">117</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>简历语言与可信度压力题</span>
+                  <b>高风险</b>
+                </div>
+                <p>你说减少模型直接给出诊断结论，具体 Prompt 怎么写？</p>
+                <em>每个抽象词都要能落到一个具体例子，尤其是异常恢复、持久化和 bad case。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="简历语言与可信度压力题" data-search="简历语言与可信度压力题 你说配合 React 页面展示，你到底写了前端还是只联调接口？ 高 每个抽象词都要能落到一个具体例子，尤其是异常恢复、持久化和 bad case。">
+              <div class="pressure-num">118</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>简历语言与可信度压力题</span>
+                  <b>高风险</b>
+                </div>
+                <p>你说配合 React 页面展示，你到底写了前端还是只联调接口？</p>
+                <em>每个抽象词都要能落到一个具体例子，尤其是异常恢复、持久化和 bad case。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="简历语言与可信度压力题" data-search="简历语言与可信度压力题 你最熟的一个模块是什么？请从业务、接口、代码、数据、异常、评估完整讲一遍。 高 每个抽象词都要能落到一个具体例子，尤其是异常恢复、持久化和 bad case。">
+              <div class="pressure-num">119</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>简历语言与可信度压力题</span>
+                  <b>高风险</b>
+                </div>
+                <p>你最熟的一个模块是什么？请从业务、接口、代码、数据、异常、评估完整讲一遍。</p>
+                <em>每个抽象词都要能落到一个具体例子，尤其是异常恢复、持久化和 bad case。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-high" data-pressure-cat="简历语言与可信度压力题" data-search="简历语言与可信度压力题 这个项目如果重做，你会删掉哪些复杂设计？为什么？ 高 每个抽象词都要能落到一个具体例子，尤其是异常恢复、持久化和 bad case。">
+              <div class="pressure-num">120</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>简历语言与可信度压力题</span>
+                  <b>高风险</b>
+                </div>
+                <p>这个项目如果重做，你会删掉哪些复杂设计？为什么？</p>
+                <em>每个抽象词都要能落到一个具体例子，尤其是异常恢复、持久化和 bad case。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-max" data-pressure-cat="终极压力题" data-search="终极压力题 你这个项目真实用户量是多少？有没有上线截图或接口文档？ 最高 这是最后防线：承认边界，回到开发测试口径和个人可证明贡献。">
+              <div class="pressure-num">121</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>终极压力题</span>
+                  <b>最高风险</b>
+                </div>
+                <p>你这个项目真实用户量是多少？有没有上线截图或接口文档？</p>
+                <em>这是最后防线：承认边界，回到开发测试口径和个人可证明贡献。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-max" data-pressure-cat="终极压力题" data-search="终极压力题 有没有真实医生参与验收？没有的话，为什么叫医疗系统？ 最高 这是最后防线：承认边界，回到开发测试口径和个人可证明贡献。">
+              <div class="pressure-num">122</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>终极压力题</span>
+                  <b>最高风险</b>
+                </div>
+                <p>有没有真实医生参与验收？没有的话，为什么叫医疗系统？</p>
+                <em>这是最后防线：承认边界，回到开发测试口径和个人可证明贡献。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-max" data-pressure-cat="终极压力题" data-search="终极压力题 医疗知识库版权和来源怎么保证？ 最高 这是最后防线：承认边界，回到开发测试口径和个人可证明贡献。">
+              <div class="pressure-num">123</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>终极压力题</span>
+                  <b>最高风险</b>
+                </div>
+                <p>医疗知识库版权和来源怎么保证？</p>
+                <em>这是最后防线：承认边界，回到开发测试口径和个人可证明贡献。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-max" data-pressure-cat="终极压力题" data-search="终极压力题 你怎么证明 RAG 回答比直接问大模型更好？ 最高 这是最后防线：承认边界，回到开发测试口径和个人可证明贡献。">
+              <div class="pressure-num">124</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>终极压力题</span>
+                  <b>最高风险</b>
+                </div>
+                <p>你怎么证明 RAG 回答比直接问大模型更好？</p>
+                <em>这是最后防线：承认边界，回到开发测试口径和个人可证明贡献。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-max" data-pressure-cat="终极压力题" data-search="终极压力题 如果高危症状规则和 RAG 答案冲突，谁优先？ 最高 这是最后防线：承认边界，回到开发测试口径和个人可证明贡献。">
+              <div class="pressure-num">125</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>终极压力题</span>
+                  <b>最高风险</b>
+                </div>
+                <p>如果高危症状规则和 RAG 答案冲突，谁优先？</p>
+                <em>这是最后防线：承认边界，回到开发测试口径和个人可证明贡献。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-max" data-pressure-cat="终极压力题" data-search="终极压力题 如果医生复核前 AI 答案已经展示给患者了，算不算违规？ 最高 这是最后防线：承认边界，回到开发测试口径和个人可证明贡献。">
+              <div class="pressure-num">126</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>终极压力题</span>
+                  <b>最高风险</b>
+                </div>
+                <p>如果医生复核前 AI 答案已经展示给患者了，算不算违规？</p>
+                <em>这是最后防线：承认边界，回到开发测试口径和个人可证明贡献。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-max" data-pressure-cat="终极压力题" data-search="终极压力题 你的项目和普通知识库问答系统相比，技术亮点到底在哪里？ 最高 这是最后防线：承认边界，回到开发测试口径和个人可证明贡献。">
+              <div class="pressure-num">127</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>终极压力题</span>
+                  <b>最高风险</b>
+                </div>
+                <p>你的项目和普通知识库问答系统相比，技术亮点到底在哪里？</p>
+                <em>这是最后防线：承认边界，回到开发测试口径和个人可证明贡献。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-max" data-pressure-cat="终极压力题" data-search="终极压力题 你作为一年经验候选人，最有价值的贡献是什么？ 最高 这是最后防线：承认边界，回到开发测试口径和个人可证明贡献。">
+              <div class="pressure-num">128</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>终极压力题</span>
+                  <b>最高风险</b>
+                </div>
+                <p>你作为一年经验候选人，最有价值的贡献是什么？</p>
+                <em>这是最后防线：承认边界，回到开发测试口径和个人可证明贡献。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-max" data-pressure-cat="终极压力题" data-search="终极压力题 这份简历里有没有你不敢被深问的技术？请你自己删掉一个。 最高 这是最后防线：承认边界，回到开发测试口径和个人可证明贡献。">
+              <div class="pressure-num">129</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>终极压力题</span>
+                  <b>最高风险</b>
+                </div>
+                <p>这份简历里有没有你不敢被深问的技术？请你自己删掉一个。</p>
+                <em>这是最后防线：承认边界，回到开发测试口径和个人可证明贡献。</em>
+              </div>
+            </article>
+
+
+            <article class="pressure-item search-item risk-max" data-pressure-cat="终极压力题" data-search="终极压力题 如果我只围绕 LangGraph、Milvus、Reranker、HitL 问 40 分钟，你能撑住吗？ 最高 这是最后防线：承认边界，回到开发测试口径和个人可证明贡献。">
+              <div class="pressure-num">130</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>终极压力题</span>
+                  <b>最高风险</b>
+                </div>
+                <p>如果我只围绕 LangGraph、Milvus、Reranker、HitL 问 40 分钟，你能撑住吗？</p>
+                <em>这是最后防线：承认边界，回到开发测试口径和个人可证明贡献。</em>
+              </div>
+            </article>
+
+        </div>
+      </section>
+
       <section id="strategy">
         <div class="section-title">
           <h2>回答策略</h2>
@@ -2284,7 +4058,9 @@
     const items = Array.from(document.querySelectorAll(".search-item"));
     const visibleCount = document.getElementById("visibleCount");
     const filters = Array.from(document.querySelectorAll(".filter"));
+    const pressureFilters = Array.from(document.querySelectorAll(".pressure-filter"));
     let activeFilter = "all";
+    let activePressureFilter = "all";
 
     function normalize(value) {
       return value.toLowerCase().replace(/\s+/g, "");
@@ -2295,9 +4071,11 @@
       let count = 0;
       items.forEach((item) => {
         const cat = item.dataset.cat || "";
+        const pressureCat = item.dataset.pressureCat || "";
         const inCat = activeFilter === "all" || cat === activeFilter || !cat;
+        const inPressureCat = activePressureFilter === "all" || pressureCat === activePressureFilter || !pressureCat;
         const haystack = normalize(item.textContent + " " + (item.dataset.search || ""));
-        const hit = inCat && (!key || haystack.includes(key));
+        const hit = inCat && inPressureCat && (!key || haystack.includes(key));
         item.classList.toggle("hidden", !hit);
         if (hit) count += 1;
       });
@@ -2308,6 +4086,14 @@
       button.addEventListener("click", () => {
         activeFilter = button.dataset.filter;
         filters.forEach((b) => b.classList.toggle("active", b === button));
+        applyFilter();
+      });
+    });
+
+    pressureFilters.forEach((button) => {
+      button.addEventListener("click", () => {
+        activePressureFilter = button.dataset.pressureFilter;
+        pressureFilters.forEach((b) => b.classList.toggle("active", b === button));
         applyFilter();
       });
     });

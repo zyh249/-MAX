@@ -6,6 +6,7 @@
 
 - 技术点归纳：20 个核心知识点，每个包含作用、选型好处、类似技术、面试风险。
 - 完整问题库：54 道简历相关追问，每题包含问题、口语化答案、相关知识点解释、可能继续追问、不要这么答。
+- 严厉追问题库：130 道压力面试追问，按真实性、业务理解、多 Agent、RAG、指标、后端、前端、模型等方向分类，并标注风险等级和准备重点。
 - 项目话术：医疗知识库 RAG 问答系统、多 Agent 导诊系统的可背回答口径。
 - 危险回答清单：避免把 AI 医疗场景讲成诊断或夸大架构职责。
 - 搜索与分类筛选：支持按技术点、项目、指标、风险词快速定位。
@@ -16,4 +17,6 @@
 
 ## 维护
 
-页面由 `tools/build_interview_page.py` 生成。后续要增删问题，优先修改脚本里的 `tech_points` 和 `questions` 数据，再重新生成 `index.html`。
+页面由 `tools/build_interview_page.py` 生成。后续要增删问题，优先修改脚本里的 `tech_points`、`questions` 和 `pressure_question_groups` 数据，再重新生成 `index.html`。
+
+可运行 `tools/validate_interview_page.py` 检查题库数量、页面结构和占位内容。

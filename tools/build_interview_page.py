@@ -606,6 +606,231 @@ questions = [
 ]
 
 
+pressure_question_groups = [
+    (
+        "简历真实性与职责边界",
+        "高",
+        "先把身份、时间、个人贡献说清楚，别把团队成果说成自己独立完成。",
+        [
+            "你在四川一维科技有限公司的具体岗位是什么？实习、试用还是正式员工？",
+            "工作经历为什么没有写起止时间？和项目时间 2025.07 - 2026.07 是怎么对应的？",
+            "两个项目时间有重叠，一个是 2025.07 - 2026.03，一个是 2026.02 - 2026.07，这两个月你同时做两个项目吗？",
+            "这两个项目是真实上线、内部原型、测试系统，还是培训项目包装？",
+            "你在项目里是核心开发、辅助开发，还是主要做前端和接口联调？",
+            "简历里写了 LangGraph、LangChain、Dify、Coze、RAGFlow，你分别实际用到哪些？哪些只是了解？",
+            "你只有一年左右经验，为什么技术栈覆盖这么广？你最有把握讲深的是哪 3 个？",
+            "哪些模块是你亲自写代码实现的？哪些是参与设计？哪些只是联调或测试？",
+            "如果我让你现场画项目架构图，你能画到接口、数据库表、状态字段级别吗？",
+            "你项目里的医生、患者、值班医生复核是真实业务角色，还是模拟流程？",
+        ],
+    ),
+    (
+        "项目背景与业务理解",
+        "高",
+        "回答要围绕医疗安全、AI 辅助边界、人工兜底和真实业务流程。",
+        [
+            "医疗导诊项目解决的核心业务问题是什么？为什么不是普通问答系统就够了？",
+            "医疗导诊、预问诊、报告解读、科室推荐，这几个场景为什么能放在一个系统里？",
+            "患者输入症状后，系统完整流程是什么？从输入到医生复核每一步怎么走？",
+            "为什么医疗场景必须强调 AI 不做诊断？你们怎么在系统里限制？",
+            "项目里医生复核是所有结果都复核，还是只复核高风险结果？",
+            "如果用户问“我是不是得了癌症”，系统应该怎么处理？",
+            "如果用户问“这个药我能不能吃”，你们如何避免给出危险建议？",
+            "医疗知识库里的资料来源是什么？药品说明书、疾病知识、急救知识从哪里来？",
+            "数据是否脱敏？如果包含体检报告，姓名、身份证、医院编号怎么处理？",
+            "你怎么理解医疗 AI 的合规风险？技术上做了哪些兜底？",
+        ],
+    ),
+    (
+        "多 Agent 与 LangGraph",
+        "高",
+        "重点准备 State 字段、节点输入输出、条件边、中断恢复和 HitL。",
+        [
+            "为什么这个项目要用多 Agent？不用一个大 Prompt 能不能实现？",
+            "你们的 Agent 是真正独立智能体，还是 LangGraph 里的业务节点？",
+            "分诊路由 Agent、症状问询 Agent、RAG Agent、报告解读 Agent、医生复核节点分别输入什么、输出什么？",
+            "LangGraph 里的 State 结构具体有哪些字段？",
+            "你为什么用 TypedDict + Pydantic？两者分别解决什么问题？",
+            "状态机的节点流转规则是什么？主诉、现病史、既往史、过敏史为什么按这个顺序？",
+            "如果用户中途补充“我现在胸口疼”，状态机怎么中断？",
+            "LangGraph 的 conditional edge 你们怎么设计？",
+            "节点执行失败怎么恢复？比如 RAG 节点超时、LLM 返回格式错误怎么办？",
+            "LangGraph 结果持久化了吗？如果页面刷新，问诊状态能不能恢复？",
+            "你们有没有用 checkpoint？如果没有，为什么？",
+            "多 Agent 之间怎么避免上下文越来越长？",
+            "每个 Agent 的 Prompt 是固定的，还是根据状态动态拼接？",
+            "医生 HitL 在 LangGraph 里怎么实现？是 interrupt、状态标记，还是单独接口？",
+            "如果医生修改了 AI 建议，修改后的结果会不会反写到 bad case 里？",
+        ],
+    ),
+    (
+        "医疗安全与高危规则",
+        "高",
+        "安全规则永远前置；宁可讲保守兜底，也不要讲 AI 自动诊断。",
+        [
+            "你们高危词有哪些？胸痛、大出血、呼吸困难、意识丧失、自杀倾向之外还有什么？",
+            "高危词是关键词匹配、正则、分类模型，还是 LLM 判断？",
+            "如果用户说“我昨天胸痛，现在好了”，还要不要提示急诊？",
+            "高危规则如何减少误报？如何减少漏报？",
+            "你写 20 条高危及近似表达样例命中 19 条，漏掉的那条是什么？为什么漏？",
+            "高危规则命中后为什么要跳过后续流程？",
+            "安全规则前置是在前端、后端，还是 Agent 节点里？",
+            "用户绕开规则，比如“胸口不舒服但不是疼”，系统怎么识别？",
+            "拒答和转人工有什么区别？什么时候拒答，什么时候转医生复核？",
+            "医疗免责声明放在哪里？Prompt 里、后端模板里，还是前端展示？",
+        ],
+    ),
+    (
+        "RAG 知识库链路",
+        "高",
+        "要能从资料清洗讲到召回、重排、引用、拒答和 bad case 复盘。",
+        [
+            "你们为什么要做 FAQ + Hybrid RAG 双通路？",
+            "FAQ 快速命中的判断条件是什么？相似度阈值怎么定？",
+            "FAQ 命中后还会不会走大模型？为什么？",
+            "Hybrid RAG 里 BM25 负责什么？Embedding 负责什么？",
+            "Milvus 在项目里存什么？向量维度是多少？collection 怎么设计？",
+            "BGE-M3 为什么适合医疗知识库？你用的是稠密向量还是稀疏向量？",
+            "BGE-Reranker 的输入输出是什么？为什么召回后还要重排？",
+            "你们 top_k、rerank_k 分别设置多少？依据是什么？",
+            "分数融合怎么做？BM25 分数和向量分数量纲不同，如何归一化？",
+            "父子分块是什么意思？为什么不用普通固定长度分块？",
+            "分块长度怎么定？太长和太短分别有什么问题？",
+            "元数据字段有哪些？科室、疾病、风险等级这些字段怎么参与过滤？",
+            "答案引用来源怎么生成？引用的是父块还是子块？",
+            "如果检索不到资料，系统怎么回答？",
+            "如何避免模型拿到错误上下文后胡说？",
+            "你们 bad case 主要有哪些类型？召回错位、引用缺失、重排误判分别怎么修？",
+            "RAGFlow 和 LangChain 在项目里分别承担什么？有没有重复？",
+        ],
+    ),
+    (
+        "评估指标与数据可信度",
+        "高",
+        "所有数字都要能解释样本量、分母、分子、标注来源和局限性。",
+        [
+            "你写内部 120 条标注问答集，这 120 条谁标注的？",
+            "Recall@5 怎么计算？一个问题有多个正确文档时怎么算？",
+            "Top5 召回率从 72% 到 86%，具体做了哪些改动带来提升？",
+            "引用命中率是什么意思？和 Recall@5 有什么区别？",
+            "拒答准确性怎么评估？正样本、负样本怎么定义？",
+            "高危提示/拒答/人工复核触发率 95%+ 是否可能误报很高？",
+            "为什么 RAG 链路 P95 不含大模型生成耗时？真实用户等待时间是多少？",
+            "FAQ P95 300ms 是前端到后端整体耗时，还是接口内部耗时？",
+            "多 Agent 并行后耗时降低 70%，基准是什么？串行耗时多少，并行耗时多少？",
+            "异常项定位与通俗解释一致率 90% 是谁判断一致？医生、测试，还是你自己？",
+            "50 条预问诊样例和 20 份报告样例，数据量会不会太小？",
+            "如果面试官说这些指标像编的，你怎么解释它们只是开发测试指标？",
+        ],
+    ),
+    (
+        "报告解读与 PDF 解析",
+        "中",
+        "别夸大 PyMuPDF；讲清文本型 PDF、扫描件 OCR、指标参考范围和异常提示边界。",
+        [
+            "PyMuPDF 在项目里具体做什么？提取 PDF 文本还是表格？",
+            "体检报告格式不统一，字段错位怎么处理？",
+            "血常规、肝功、血脂这些指标的参考范围从哪里来？",
+            "同一个指标不同性别、年龄参考范围不同，你们怎么处理？",
+            "OCR 错字、单位识别错误怎么办？",
+            "报告解读为什么用并行评审？哪些任务可以并行，哪些不能并行？",
+            "asyncio.gather 中某一个报告项解析失败，会不会影响全部结果？",
+            "并发调用 LLM 怎么限流？怎么避免接口超时？",
+            "异常项解释为什么不能写成诊断结论？前端如何提示？",
+        ],
+    ),
+    (
+        "后端与数据链路",
+        "中",
+        "准备接口字段、日志字段、异常处理、缓存策略和数据库边界。",
+        [
+            "FastAPI 里你封装了哪些接口？问答接口、反馈接口、检索接口分别怎么设计？",
+            "请求和响应 JSON 大概长什么样？",
+            "Pydantic 模型怎么定义？校验失败怎么返回？",
+            "MySQL 和 PostgreSQL 为什么同时出现？分别存什么？",
+            "Redis 在项目里做缓存、会话还是限流？",
+            "用户 query、召回文档、重排分数、引用来源这些日志存在哪里？",
+            "如何做异常处理？LLM 超时、Milvus 连接失败、数据库失败分别怎么处理？",
+            "CORS 问题你怎么解决？前后端联调遇到过什么坑？",
+            "接口耗时怎么统计？中间每个节点耗时有没有埋点？",
+            "你们有没有做鉴权？医生端和患者端权限怎么区分？",
+        ],
+    ),
+    (
+        "前端 React / TypeScript / Ant Design",
+        "中",
+        "讲页面状态、异常状态、引用展示、流式展示和类型约束。",
+        [
+            "前端你做了哪些页面？问答页、引用来源、报告解读、医生复核分别长什么样？",
+            "流式输出怎么展示？是 SSE、WebSocket，还是普通轮询？",
+            "加载状态怎么设计？RAG 检索中、LLM 生成中、医生复核中如何区分？",
+            "引用来源怎么展示？点击引用能不能定位原文片段？",
+            "风险提示和免责声明如何避免用户忽略？",
+            "异常状态有哪些？无资料、接口超时、模型拒答、医生待复核怎么展示？",
+            "TypeScript 类型和后端 Pydantic 类型如何保持一致？",
+            "Ant Design 表单校验做了哪些？年龄、症状、报告上传怎么校验？",
+            "如果用户连续提问，前端如何维护会话上下文？",
+        ],
+    ),
+    (
+        "模型与 Prompt",
+        "中",
+        "把自己定位成模型应用，不要硬装训练和底层算法专家。",
+        [
+            "Qwen 在项目里负责什么？生成回答、结构化抽取，还是报告解释？",
+            "你用的 Qwen 是本地部署还是 API？",
+            "Prompt 里如何约束不能诊断、必须引用、无依据拒答？",
+            "结构化输出怎么保证稳定？JSON 解析失败怎么办？",
+            "为什么不用微调模型，而是用 Prompt + RAG？",
+            "RoBERTa-wwm-ext、RexUniNLU/DeBERTa 写在技能里，项目里实际用了吗？",
+            "Macro F1、Issue Recall、MAE 分别适合评估什么任务？",
+            "如果面试官让你解释 Transformer 注意力机制，你能讲到 Q/K/V 吗？",
+        ],
+    ),
+    (
+        "简历语言与可信度压力题",
+        "高",
+        "每个抽象词都要能落到一个具体例子，尤其是异常恢复、持久化和 bad case。",
+        [
+            "你说熟悉 Agent Workflow 工程化流程，请举一个你亲自解决的工程问题。",
+            "你说异常恢复，具体恢复了什么异常？",
+            "你说结果持久化，持久化到哪里？表结构是什么？",
+            "你说 bad case 复盘，拿一个真实 bad case 讲完整闭环。",
+            "你说降低参数传递和格式解析成本，怎么量化这个成本？",
+            "你说覆盖导诊咨询、疾病科普、用药说明、检查注意事项和急救提示，每类各举一个问题。",
+            "你说减少模型直接给出诊断结论，具体 Prompt 怎么写？",
+            "你说配合 React 页面展示，你到底写了前端还是只联调接口？",
+            "你最熟的一个模块是什么？请从业务、接口、代码、数据、异常、评估完整讲一遍。",
+            "这个项目如果重做，你会删掉哪些复杂设计？为什么？",
+        ],
+    ),
+    (
+        "终极压力题",
+        "最高",
+        "这是最后防线：承认边界，回到开发测试口径和个人可证明贡献。",
+        [
+            "你这个项目真实用户量是多少？有没有上线截图或接口文档？",
+            "有没有真实医生参与验收？没有的话，为什么叫医疗系统？",
+            "医疗知识库版权和来源怎么保证？",
+            "你怎么证明 RAG 回答比直接问大模型更好？",
+            "如果高危症状规则和 RAG 答案冲突，谁优先？",
+            "如果医生复核前 AI 答案已经展示给患者了，算不算违规？",
+            "你的项目和普通知识库问答系统相比，技术亮点到底在哪里？",
+            "你作为一年经验候选人，最有价值的贡献是什么？",
+            "这份简历里有没有你不敢被深问的技术？请你自己删掉一个。",
+            "如果我只围绕 LangGraph、Milvus、Reranker、HitL 问 40 分钟，你能撑住吗？",
+        ],
+    ),
+]
+
+
+pressure_questions = [
+    {"cat": cat, "q": question, "risk": risk, "focus": focus}
+    for cat, risk, focus, group_questions in pressure_question_groups
+    for question in group_questions
+]
+
+
 def esc(text: str) -> str:
     return (
         text.replace("&", "&amp;")
@@ -684,6 +909,46 @@ def render_category_buttons() -> str:
     buttons = ['<button class="filter active" data-filter="all">全部问题</button>']
     buttons += [f'<button class="filter" data-filter="{esc(cat)}">{esc(cat)}</button>' for cat in cats]
     return "\n".join(buttons)
+
+
+def render_pressure_buttons() -> str:
+    cats = []
+    for item in pressure_questions:
+        if item["cat"] not in cats:
+            cats.append(item["cat"])
+    buttons = ['<button class="pressure-filter active" data-pressure-filter="all">全部追问</button>']
+    buttons += [
+        f'<button class="pressure-filter" data-pressure-filter="{esc(cat)}">{esc(cat)}</button>'
+        for cat in cats
+    ]
+    return "\n".join(buttons)
+
+
+def render_pressure_questions() -> str:
+    cards = []
+    for idx, item in enumerate(pressure_questions, 1):
+        text = " ".join(item.values())
+        risk_class = {
+            "最高": "risk-max",
+            "高": "risk-high",
+            "中": "risk-mid",
+        }.get(item["risk"], "risk-mid")
+        cards.append(
+            f"""
+            <article class="pressure-item search-item {risk_class}" data-pressure-cat="{esc(item['cat'])}" data-search="{esc(text)}">
+              <div class="pressure-num">{idx:03d}</div>
+              <div class="pressure-main">
+                <div class="pressure-meta">
+                  <span>{esc(item['cat'])}</span>
+                  <b>{esc(item['risk'])}风险</b>
+                </div>
+                <p>{esc(item['q'])}</p>
+                <em>{esc(item['focus'])}</em>
+              </div>
+            </article>
+            """
+        )
+    return "\n".join(cards)
 
 
 html = f"""<!doctype html>
@@ -839,7 +1104,7 @@ html = f"""<!doctype html>
       gap: 9px;
       margin-bottom: 16px;
     }}
-    .filter {{
+    .filter, .pressure-filter {{
       border: 1px solid #cfc5b4;
       background: #fffdf8;
       color: #24364b;
@@ -848,7 +1113,7 @@ html = f"""<!doctype html>
       cursor: pointer;
       font-weight: 700;
     }}
-    .filter.active {{
+    .filter.active, .pressure-filter.active {{
       background: #173e65;
       color: white;
       border-color: #173e65;
@@ -858,7 +1123,7 @@ html = f"""<!doctype html>
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 14px;
     }}
-    .tech-card, .qa-card, .memo, .danger {{
+    .tech-card, .qa-card, .pressure-item, .memo, .danger {{
       background: var(--card);
       border: 1px solid var(--line);
       border-radius: 8px;
@@ -958,6 +1223,65 @@ html = f"""<!doctype html>
       border-color: #e0b8ae;
       background: #fff3ef;
     }}
+    .pressure-list {{
+      display: grid;
+      gap: 10px;
+    }}
+    .pressure-item {{
+      display: grid;
+      grid-template-columns: 58px minmax(0, 1fr);
+      gap: 12px;
+      padding: 13px 15px;
+      border-left: 5px solid #b86f18;
+    }}
+    .pressure-item.risk-high {{ border-left-color: var(--red); }}
+    .pressure-item.risk-max {{
+      border-left-color: #6e1712;
+      background: #fff2ef;
+    }}
+    .pressure-num {{
+      color: #12345b;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 20px;
+      font-weight: 800;
+      line-height: 1.4;
+    }}
+    .pressure-main p {{
+      margin: 5px 0 7px;
+      color: #1f2c3d;
+      font-weight: 800;
+    }}
+    .pressure-main em {{
+      display: block;
+      color: var(--muted);
+      font-style: normal;
+      font-size: 13px;
+    }}
+    .pressure-meta {{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }}
+    .pressure-meta span, .pressure-meta b {{
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      border-radius: 999px;
+      padding: 2px 9px;
+      font-size: 12px;
+      line-height: 1.4;
+    }}
+    .pressure-meta span {{
+      color: #12345b;
+      background: #edf3f8;
+    }}
+    .pressure-meta b {{
+      color: #fff;
+      background: var(--amber);
+    }}
+    .risk-high .pressure-meta b {{ background: var(--red); }}
+    .risk-max .pressure-meta b {{ background: #6e1712; }}
     .memo {{
       padding: 18px;
       border-left: 5px solid var(--green);
@@ -1007,6 +1331,7 @@ html = f"""<!doctype html>
         <a href="#overview">使用方法</a>
         <a href="#tech">技术点地图</a>
         <a href="#questions">完整问题库</a>
+        <a href="#pressure">严厉追问题库</a>
         <a href="#strategy">回答策略</a>
         <a href="#danger">高危提醒</a>
       </nav>
@@ -1017,10 +1342,10 @@ html = f"""<!doctype html>
         <h1>张宇辉 AI 大模型面试问题库</h1>
         <p>这不是背八股的页面，而是按你的简历反向推演：面试官会从技术栈、项目合理性、个人职责、指标口径、医疗安全边界一路追问。每个问题都给出口语化回答、相关知识点解释、可能继续追问和避坑说法。</p>
         <div class="stats">
-          <div class="stat"><b>{len(questions)}</b><span>道高频追问题</span></div>
+          <div class="stat"><b>{len(questions)}</b><span>道精讲问答</span></div>
+          <div class="stat"><b>{len(pressure_questions)}</b><span>道严厉追问</span></div>
           <div class="stat"><b>{len(tech_points)}</b><span>个技术点解释</span></div>
           <div class="stat"><b>2</b><span>个核心项目口径</span></div>
-          <div class="stat"><b>1</b><span>条主线：AI 应用落地</span></div>
         </div>
       </header>
 
@@ -1049,6 +1374,19 @@ html = f"""<!doctype html>
         </div>
         <div class="qa-list">
           {render_question_cards()}
+        </div>
+      </section>
+
+      <section id="pressure">
+        <div class="section-title">
+          <h2>严厉面试官追问题库</h2>
+          <span>这部分先不写长答案，专门训练你被连续追问时的抗压准备。</span>
+        </div>
+        <div class="filters pressure-filters">
+          {render_pressure_buttons()}
+        </div>
+        <div class="pressure-list">
+          {render_pressure_questions()}
         </div>
       </section>
 
@@ -1096,7 +1434,9 @@ html = f"""<!doctype html>
     const items = Array.from(document.querySelectorAll(".search-item"));
     const visibleCount = document.getElementById("visibleCount");
     const filters = Array.from(document.querySelectorAll(".filter"));
+    const pressureFilters = Array.from(document.querySelectorAll(".pressure-filter"));
     let activeFilter = "all";
+    let activePressureFilter = "all";
 
     function normalize(value) {{
       return value.toLowerCase().replace(/\\s+/g, "");
@@ -1107,9 +1447,11 @@ html = f"""<!doctype html>
       let count = 0;
       items.forEach((item) => {{
         const cat = item.dataset.cat || "";
+        const pressureCat = item.dataset.pressureCat || "";
         const inCat = activeFilter === "all" || cat === activeFilter || !cat;
+        const inPressureCat = activePressureFilter === "all" || pressureCat === activePressureFilter || !pressureCat;
         const haystack = normalize(item.textContent + " " + (item.dataset.search || ""));
-        const hit = inCat && (!key || haystack.includes(key));
+        const hit = inCat && inPressureCat && (!key || haystack.includes(key));
         item.classList.toggle("hidden", !hit);
         if (hit) count += 1;
       }});
@@ -1120,6 +1462,14 @@ html = f"""<!doctype html>
       button.addEventListener("click", () => {{
         activeFilter = button.dataset.filter;
         filters.forEach((b) => b.classList.toggle("active", b === button));
+        applyFilter();
+      }});
+    }});
+
+    pressureFilters.forEach((button) => {{
+      button.addEventListener("click", () => {{
+        activePressureFilter = button.dataset.pressureFilter;
+        pressureFilters.forEach((b) => b.classList.toggle("active", b === button));
         applyFilter();
       }});
     }});
