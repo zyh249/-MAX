@@ -1,0 +1,1076 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>张宇辉 AI 大模型面试技术地图</title>
+  <style>
+    :root {
+      --paper: #f6f3ec;
+      --ink: #172033;
+      --muted: #5f6675;
+      --line: #d9d1c3;
+      --navy: #12345b;
+      --blue: #2364aa;
+      --amber: #c67b23;
+      --red: #a33a2f;
+      --green: #2c7556;
+      --card: #fffdf8;
+      --shadow: 0 22px 60px rgba(18, 52, 91, 0.13);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background:
+        linear-gradient(90deg, rgba(18, 52, 91, .055) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(18, 52, 91, .04) 1px, transparent 1px),
+        var(--paper);
+      background-size: 34px 34px;
+      color: var(--ink);
+      font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", sans-serif;
+      line-height: 1.65;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .shell {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      min-height: 100vh;
+    }
+
+    aside {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      padding: 28px 22px;
+      background: #102a46;
+      color: #eef5ff;
+      border-right: 1px solid rgba(255,255,255,.15);
+    }
+
+    .brand {
+      display: grid;
+      gap: 8px;
+      padding-bottom: 22px;
+      border-bottom: 1px solid rgba(255,255,255,.18);
+    }
+
+    .brand b {
+      font-size: 20px;
+      letter-spacing: .02em;
+    }
+
+    .brand span {
+      color: #b6c7d9;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .nav {
+      display: grid;
+      gap: 8px;
+      margin-top: 22px;
+    }
+
+    .nav a {
+      display: block;
+      padding: 9px 10px;
+      border-radius: 6px;
+      color: #d9e6f3;
+      font-size: 14px;
+    }
+
+    .nav a:hover {
+      background: rgba(255,255,255,.1);
+      color: #fff;
+    }
+
+    .main {
+      padding: 36px clamp(24px, 5vw, 72px) 72px;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      min-height: 340px;
+      padding: 42px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background:
+        linear-gradient(135deg, rgba(255,253,248,.96), rgba(246,243,236,.88)),
+        radial-gradient(circle at 82% 20%, rgba(198, 123, 35, .18), transparent 28%),
+        radial-gradient(circle at 18% 78%, rgba(35, 100, 170, .18), transparent 30%);
+      box-shadow: var(--shadow);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: 40px;
+      bottom: 26px;
+      width: 340px;
+      height: 190px;
+      border: 1px solid rgba(18, 52, 91, .2);
+      background:
+        linear-gradient(90deg, transparent 0 22%, rgba(18,52,91,.18) 22% 23%, transparent 23% 48%, rgba(18,52,91,.18) 48% 49%, transparent 49% 74%, rgba(18,52,91,.18) 74% 75%, transparent 75%),
+        linear-gradient(180deg, transparent 0 38%, rgba(18,52,91,.18) 38% 39%, transparent 39% 70%, rgba(18,52,91,.18) 70% 71%, transparent 71%);
+      opacity: .55;
+      transform: rotate(-2deg);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--amber);
+      font-weight: 700;
+      letter-spacing: .12em;
+      font-size: 13px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 850px;
+      margin: 18px 0 18px;
+      font-size: clamp(36px, 5vw, 68px);
+      line-height: 1.06;
+      letter-spacing: 0;
+      color: #0d2d4e;
+    }
+
+    .hero p {
+      max-width: 760px;
+      margin: 0;
+      color: #3f4857;
+      font-size: 17px;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 28px;
+      max-width: 820px;
+    }
+
+    .chip {
+      border: 1px solid rgba(18,52,91,.18);
+      background: rgba(255,255,255,.74);
+      border-radius: 999px;
+      padding: 6px 11px;
+      color: #28435e;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 3;
+      margin: 22px 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      padding: 12px;
+      background: rgba(246,243,236,.92);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      backdrop-filter: blur(10px);
+    }
+
+    input[type="search"] {
+      width: 100%;
+      height: 42px;
+      border: 1px solid #cfc6b7;
+      border-radius: 6px;
+      background: #fffdf8;
+      color: var(--ink);
+      padding: 0 14px;
+      font-size: 15px;
+      outline: none;
+    }
+
+    input[type="search"]:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(35,100,170,.14);
+    }
+
+    .count {
+      color: var(--muted);
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    section {
+      margin-top: 34px;
+      scroll-margin-top: 92px;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+      border-bottom: 2px solid #1d446d;
+      padding-bottom: 10px;
+      margin-bottom: 16px;
+    }
+
+    h2 {
+      margin: 0;
+      color: #12345b;
+      font-size: 27px;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    .section-title span {
+      color: var(--muted);
+      font-size: 14px;
+      text-align: right;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 14px;
+    }
+
+    .card {
+      grid-column: span 4;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+      box-shadow: 0 12px 28px rgba(18,52,91,.07);
+    }
+
+    .card.wide { grid-column: span 6; }
+    .card.full { grid-column: 1 / -1; }
+
+    .card h3 {
+      margin: 0 0 10px;
+      color: #133a61;
+      font-size: 19px;
+      line-height: 1.25;
+    }
+
+    .tagline {
+      margin: -4px 0 12px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    dl {
+      display: grid;
+      gap: 8px;
+      margin: 0;
+    }
+
+    dt {
+      color: var(--amber);
+      font-weight: 800;
+      font-size: 13px;
+    }
+
+    dd {
+      margin: -5px 0 0;
+      color: #2d3544;
+      font-size: 14px;
+    }
+
+    .risk {
+      border-left: 5px solid var(--red);
+    }
+
+    .good {
+      border-left: 5px solid var(--green);
+    }
+
+    .warn {
+      border-left: 5px solid var(--amber);
+    }
+
+    .map {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+      align-items: stretch;
+      margin-top: 14px;
+    }
+
+    .map div {
+      min-height: 110px;
+      padding: 14px;
+      border: 1px solid #cfc6b7;
+      border-radius: 8px;
+      background: #fffdf8;
+    }
+
+    .map b {
+      display: block;
+      color: #12345b;
+      margin-bottom: 6px;
+    }
+
+    .map small {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .qa {
+      display: grid;
+      gap: 12px;
+    }
+
+    details {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: 0 12px 28px rgba(18,52,91,.06);
+      overflow: hidden;
+    }
+
+    summary {
+      cursor: pointer;
+      padding: 15px 18px;
+      font-weight: 800;
+      color: #12345b;
+      list-style: none;
+    }
+
+    summary::-webkit-details-marker { display: none; }
+
+    summary::after {
+      content: "+";
+      float: right;
+      color: var(--amber);
+      font-size: 22px;
+      line-height: 1;
+    }
+
+    details[open] summary::after { content: "−"; }
+
+    .answer {
+      padding: 0 18px 18px;
+      display: grid;
+      gap: 12px;
+      border-top: 1px solid var(--line);
+    }
+
+    .answer p { margin: 0; }
+
+    .answer .label {
+      display: inline-block;
+      min-width: 72px;
+      color: var(--amber);
+      font-weight: 800;
+    }
+
+    .bad {
+      padding: 10px 12px;
+      background: #fff4ef;
+      border: 1px solid #e2b9ad;
+      border-radius: 6px;
+      color: #723226;
+    }
+
+    .script {
+      padding: 14px;
+      background: #f0f5fb;
+      border: 1px solid #c8d8ea;
+      border-radius: 6px;
+      color: #1b314b;
+    }
+
+    .matrix {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 12px 28px rgba(18,52,91,.06);
+    }
+
+    .matrix th,
+    .matrix td {
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+      padding: 12px;
+      text-align: left;
+      font-size: 14px;
+    }
+
+    .matrix th {
+      color: #12345b;
+      background: #ede6da;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .matrix tr:last-child td { border-bottom: 0; }
+
+    .priority {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 3px 8px;
+      font-size: 12px;
+      font-weight: 800;
+      color: white;
+      background: var(--blue);
+    }
+
+    .priority.hot { background: var(--red); }
+    .priority.mid { background: var(--amber); }
+    .priority.safe { background: var(--green); }
+
+    .two-col {
+      columns: 2 320px;
+      column-gap: 22px;
+    }
+
+    .two-col li {
+      break-inside: avoid;
+      margin-bottom: 8px;
+    }
+
+    footer {
+      margin-top: 48px;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      padding-top: 18px;
+      font-size: 13px;
+    }
+
+    .hidden { display: none !important; }
+
+    @media (max-width: 980px) {
+      .shell { grid-template-columns: 1fr; }
+      aside {
+        position: static;
+        height: auto;
+      }
+      .nav {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .main { padding: 22px 16px 48px; }
+      .hero { padding: 28px 22px; }
+      .hero::after { display: none; }
+      .card, .card.wide { grid-column: 1 / -1; }
+      .map { grid-template-columns: 1fr; }
+      .toolbar { grid-template-columns: 1fr; }
+      .section-title { display: block; }
+      .section-title span { display: block; text-align: left; margin-top: 6px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside>
+      <div class="brand">
+        <b>AI 面试作战手册</b>
+        <span>围绕张宇辉简历中的医疗 RAG、多 Agent、LangGraph、FastAPI、React 与评测指标，把可讲清楚的技术口径整理成一页。</span>
+      </div>
+      <nav class="nav">
+        <a href="#overview">总览判断</a>
+        <a href="#relation">项目边界</a>
+        <a href="#tech">技术点地图</a>
+        <a href="#qa">追问答案库</a>
+        <a href="#scripts">项目话术</a>
+        <a href="#danger">不能这么答</a>
+      </nav>
+    </aside>
+
+    <main class="main">
+      <header class="hero" id="overview">
+        <div class="eyebrow">AI Interview Map</div>
+        <h1>张宇辉 AI 大模型面试技术地图</h1>
+        <p>面试官真正追的不是“你会多少名词”，而是每个技术为什么用、你做了哪一块、指标怎么算、边界在哪里。这里把简历里的技术栈拆成可回答的知识点，并给出严厉追问下的回答口径。</p>
+        <div class="chips">
+          <span class="chip">医疗 RAG</span>
+          <span class="chip">LangGraph 多 Agent</span>
+          <span class="chip">Hybrid Search</span>
+          <span class="chip">BGE-M3 / Reranker</span>
+          <span class="chip">HitL 人工复核</span>
+          <span class="chip">FastAPI + React</span>
+          <span class="chip">Evaluation 指标</span>
+        </div>
+      </header>
+
+      <div class="toolbar">
+        <input id="search" type="search" placeholder="搜索技术点或面试问题，例如：LangGraph、Recall@5、HitL、P95、Milvus" />
+        <div class="count"><span id="visibleCount">0</span> 个条目</div>
+      </div>
+
+      <section id="relation">
+        <div class="section-title">
+          <h2>项目边界</h2>
+          <span>先把两个项目的关系说清，否则面试官会认为你在重复包装同一段经历。</span>
+        </div>
+        <div class="card full good search-item" data-search="项目边界 rag 多 agent 知识库底座 业务编排">
+          <h3>推荐口径：RAG 是知识底座，多 Agent 是业务编排</h3>
+          <p>医疗知识库 RAG 问答系统负责资料清洗、切分、召回、重排、引用来源、安全拒答，是一个知识问答底座；医疗导诊与报告解读多 Agent 系统负责把患者输入、问诊状态机、危急症状拦截、报告解读和医生复核串成业务流程，其中“医学指南 RAG Agent”只是调用知识底座的一类节点。</p>
+          <div class="map">
+            <div><b>患者输入</b><small>症状、报告、咨询问题</small></div>
+            <div><b>多 Agent 编排</b><small>分诊路由、状态机追问、报告并行解读、HitL</small></div>
+            <div><b>RAG 知识底座</b><small>FAQ、BM25、Milvus、Reranker、引用</small></div>
+            <div><b>安全兜底</b><small>危急词、拒答、免责声明、人工复核</small></div>
+            <div><b>前端展示</b><small>摘要、引用、风险提示、复核状态</small></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="tech">
+        <div class="section-title">
+          <h2>技术点地图</h2>
+          <span>每个点都按“作用、为什么选、类似技术、面试风险”整理。</span>
+        </div>
+        <div class="grid">
+          <article class="card search-item" data-search="LLM 大语言模型 Qwen GLM DeepSeek Llama">
+            <h3>LLM / Qwen</h3>
+            <p class="tagline">负责理解问题、生成追问、组织科普回答。</p>
+            <dl>
+              <dt>作用</dt><dd>把结构化上下文、检索片段和安全规则转成自然语言回答。</dd>
+              <dt>好处</dt><dd>中文能力较好，工程接入成熟，适合医疗科普类回答生成。</dd>
+              <dt>类似技术</dt><dd>DeepSeek、GLM、Baichuan、Llama、GPT 系列。</dd>
+              <dt>风险</dt><dd>不能说“模型诊断疾病”，只能说“辅助生成科普解释和就医建议”。</dd>
+            </dl>
+          </article>
+
+          <article class="card search-item" data-search="LangGraph Agent Workflow 状态图 条件边 state">
+            <h3>LangGraph</h3>
+            <p class="tagline">把多步骤 LLM 流程做成可控的状态图。</p>
+            <dl>
+              <dt>作用</dt><dd>定义节点、边、条件分支和共享 State，适合导诊这种有中断和回退的流程。</dd>
+              <dt>好处</dt><dd>比简单链式调用更可控，能表达状态机、路由、人工复核和异常分支。</dd>
+              <dt>类似技术</dt><dd>AutoGen、CrewAI、Semantic Kernel、Dify Workflow、Coze Workflow。</dd>
+              <dt>风险</dt><dd>要能说出 State 字段、节点职责和条件边，不要只说“用了多 Agent”。</dd>
+            </dl>
+          </article>
+
+          <article class="card search-item" data-search="LangChain RAG chain prompt retriever">
+            <h3>LangChain</h3>
+            <p class="tagline">连接模型、Prompt、Retriever 和工具调用。</p>
+            <dl>
+              <dt>作用</dt><dd>封装检索、提示词、模型调用、输出解析等 RAG 基础链路。</dd>
+              <dt>好处</dt><dd>生态成熟，文档加载器、Retriever、PromptTemplate 等组件齐全。</dd>
+              <dt>类似技术</dt><dd>LlamaIndex、Haystack、RAGFlow、Dify。</dd>
+              <dt>风险</dt><dd>别把 LangChain 讲成业务核心，核心还是你的数据、召回、评测和安全策略。</dd>
+            </dl>
+          </article>
+
+          <article class="card search-item" data-search="Agent 多 Agent 路由 分诊 症状问询 报告解读 医生复核">
+            <h3>多 Agent Workflow</h3>
+            <p class="tagline">多个专职节点协同处理一个业务流程。</p>
+            <dl>
+              <dt>作用</dt><dd>把分诊路由、症状问询、指南检索、报告解读、医生复核拆成职责清晰的节点。</dd>
+              <dt>好处</dt><dd>便于排查问题，也能把安全规则放在生成之前，降低不可控输出。</dd>
+              <dt>类似技术</dt><dd>普通工作流、规则引擎、BPMN、Dify/Coze 编排。</dd>
+              <dt>风险</dt><dd>一年经验不要说自己设计了整套架构，建议说“参与拆分，负责部分节点实现”。</dd>
+            </dl>
+          </article>
+
+          <article class="card search-item" data-search="状态机 State Machine 主诉 现病史 既往史 过敏史">
+            <h3>问诊状态机</h3>
+            <p class="tagline">让多轮问询按固定阶段推进。</p>
+            <dl>
+              <dt>作用</dt><dd>按主诉、现病史、既往史、过敏史/用药史采集信息，缺字段时追问。</dd>
+              <dt>好处</dt><dd>比自由对话更稳定，能解释为什么追问、什么时候结束、何时中断。</dd>
+              <dt>类似技术</dt><dd>有限状态机、表单引擎、规则树、slot filling。</dd>
+              <dt>风险</dt><dd>要能说“缺失字段怎么判断”，不能只说“让模型自己追问”。</dd>
+            </dl>
+          </article>
+
+          <article class="card search-item" data-search="TypedDict Pydantic 结构化输出 校验 schema">
+            <h3>TypedDict + Pydantic</h3>
+            <p class="tagline">约束 Agent 节点间的数据结构。</p>
+            <dl>
+              <dt>作用</dt><dd>定义患者信息、症状、风险标记、科室建议、复核状态等字段。</dd>
+              <dt>好处</dt><dd>降低字典字段混乱和 LLM 输出格式不稳定带来的解析错误。</dd>
+              <dt>类似技术</dt><dd>dataclass、Marshmallow、JSON Schema、TypeScript interface。</dd>
+              <dt>风险</dt><dd>面试官会问必填字段、默认值、校验失败怎么办，要准备兜底逻辑。</dd>
+            </dl>
+          </article>
+
+          <article class="card search-item" data-search="RAG 检索增强生成 知识库 引用 溯源">
+            <h3>RAG</h3>
+            <p class="tagline">让模型基于知识库回答，减少胡编。</p>
+            <dl>
+              <dt>作用</dt><dd>先检索疾病、药品、急救、科室 FAQ，再让模型基于片段生成回答。</dd>
+              <dt>好处</dt><dd>可溯源、可更新、比单纯微调更适合业务知识变化频繁的场景。</dd>
+              <dt>类似技术</dt><dd>微调、知识图谱问答、搜索引擎问答、Long Context。</dd>
+              <dt>风险</dt><dd>必须说清“不检索到证据就拒答或人工复核”，医疗场景不能硬编。</dd>
+            </dl>
+          </article>
+
+          <article class="card search-item" data-search="FAQ 快速命中 BM25 Redis MySQL 高频问题">
+            <h3>FAQ 快速命中</h3>
+            <p class="tagline">高频标准问题不用每次走完整 RAG。</p>
+            <dl>
+              <dt>作用</dt><dd>挂号科室、检查注意事项、常见药品用法等问题优先返回标准答案。</dd>
+              <dt>好处</dt><dd>快、稳定、成本低，适合可标准化的问题。</dd>
+              <dt>类似技术</dt><dd>意图分类、ES 关键词检索、规则模板、Redis 缓存。</dd>
+              <dt>风险</dt><dd>要说明 FAQ 命中不可靠时会回退到 RAG，而不是强行返回错答案。</dd>
+            </dl>
+          </article>
+
+          <article class="card search-item" data-search="BM25 稀疏检索 关键词 tf idf">
+            <h3>BM25</h3>
+            <p class="tagline">关键词匹配强，适合药名、检查项、专有名词。</p>
+            <dl>
+              <dt>作用</dt><dd>按词频、逆文档频率和长度归一化进行文本召回。</dd>
+              <dt>好处</dt><dd>对精确词、药品名、指标名命中稳定，能补向量召回的短板。</dd>
+              <dt>类似技术</dt><dd>TF-IDF、Elasticsearch、OpenSearch、Lucene。</dd>
+              <dt>风险</dt><dd>不要说 BM25 理解语义，它主要解决关键词层面的召回。</dd>
+            </dl>
+          </article>
+
+          <article class="card search-item" data-search="Embedding 向量 BGE-M3 dense sparse colbert">
+            <h3>BGE-M3 / Embedding</h3>
+            <p class="tagline">把文本转成向量，用语义相似度召回。</p>
+            <dl>
+              <dt>作用</dt><dd>用于疾病描述、用药咨询、科室推荐等自然语言问题的语义检索。</dd>
+              <dt>好处</dt><dd>BGE-M3 支持多语言、多粒度，也能提供稠密和稀疏表示思路。</dd>
+              <dt>类似技术</dt><dd>m3e、bge-large-zh、E5、text-embedding 系列。</dd>
+              <dt>风险</dt><dd>要能解释向量召回不等于最终答案，还要重排、引用和安全约束。</dd>
+            </dl>
+          </article>
+
+          <article class="card search-item" data-search="Milvus 向量数据库 FAISS Qdrant Elasticsearch">
+            <h3>Milvus</h3>
+            <p class="tagline">存储向量并支持近似最近邻检索。</p>
+            <dl>
+              <dt>作用</dt><dd>保存知识块向量，按 query embedding 检索相似内容。</dd>
+              <dt>好处</dt><dd>适合大规模向量检索，支持索引、过滤、集合管理。</dd>
+              <dt>类似技术</dt><dd>FAISS、Qdrant、Weaviate、pgvector、Elasticsearch dense_vector。</dd>
+              <dt>风险</dt><dd>面试官可能问索引类型和过滤字段，不熟就说“项目中主要负责接入和参数调优”。</dd>
+            </dl>
+          </article>
+
+          <article class="card search-item" data-search="BGE-Reranker 重排 cross encoder rerank_k">
+            <h3>BGE-Reranker</h3>
+            <p class="tagline">对召回候选做精排，提高上下文质量。</p>
+            <dl>
+              <dt>作用</dt><dd>把 BM25 和向量召回的候选片段重新排序，选出更适合生成答案的上下文。</dd>
+              <dt>好处</dt><dd>Cross-Encoder 能同时看 query 和 passage，比单纯向量相似度判断更细。</dd>
+              <dt>类似技术</dt><dd>m3e-reranker、Cohere Rerank、ColBERT、LLM rerank。</dd>
+              <dt>风险</dt><dd>要说明重排会增加耗时，所以需要控制 rerank_k 和 P95。</dd>
+            </dl>
+          </article>
+
+          <article class="card search-item" data-search="父子分块 parent child chunk metadata 文档切分">
+            <h3>父子分块</h3>
+            <p class="tagline">兼顾召回精度和生成上下文完整性。</p>
+            <dl>
+              <dt>作用</dt><dd>小块用于召回，大块用于给模型阅读，避免片段太碎造成理解缺失。</dd>
+              <dt>好处</dt><dd>比固定长度切分更能保留标题层级和医学资料上下文。</dd>
+              <dt>类似技术</dt><dd>递归分块、Markdown 标题切分、语义分块、滑动窗口。</dd>
+              <dt>风险</dt><dd>要能说清父块、子块分别存什么，引用展示用哪个粒度。</dd>
+            </dl>
+          </article>
+
+          <article class="card search-item" data-search="Hybrid Search 混合召回 分数融合 rank fusion">
+            <h3>Hybrid Search</h3>
+            <p class="tagline">BM25 解决精确词，向量解决语义表达。</p>
+            <dl>
+              <dt>作用</dt><dd>合并关键词召回和向量召回，再用重排模型筛选上下文。</dd>
+              <dt>好处</dt><dd>药名、指标名、自然语言症状描述都能兼顾。</dd>
+              <dt>类似技术</dt><dd>RRF、加权融合、候选并集 + rerank、ES 混合检索。</dd>
+              <dt>风险</dt><dd>如果没做复杂公式，就说“候选合并后交给 reranker”，别装成算法专家。</dd>
+            </dl>
+          </article>
+
+          <article class="card search-item" data-search="Prompt Engineering 安全提示词 拒答 医疗免责声明">
+            <h3>安全 Prompt</h3>
+            <p class="tagline">约束模型只做科普，不做诊断。</p>
+            <dl>
+              <dt>作用</dt><dd>把用户问题、检索上下文、引用来源和医疗安全规则组装成提示词。</dd>
+              <dt>好处</dt><dd>统一输出风格，降低无来源回答、越界诊断、过度承诺。</dd>
+              <dt>类似技术</dt><dd>Guardrails、规则引擎、内容审核模型、函数调用约束。</dd>
+              <dt>风险</dt><dd>Prompt 不是唯一安全手段，必须配合规则前置、拒答和医生复核。</dd>
+            </dl>
+          </article>
+
+          <article class="card search-item" data-search="HitL human in the loop 医生复核 interrupt 人工兜底">
+            <h3>HitL 医生复核</h3>
+            <p class="tagline">医疗建议推送前需要人工确认。</p>
+            <dl>
+              <dt>作用</dt><dd>AI 输出先进入待复核状态，由医生确认或修正后再展示。</dd>
+              <dt>好处</dt><dd>降低医疗风险，符合“AI 辅助，不替代医生”的业务边界。</dd>
+              <dt>类似技术</dt><dd>审批流、人工审核队列、客服转人工、LangGraph interrupt。</dd>
+              <dt>风险</dt><dd>初级开发建议说“实现状态流转和页面提示”，别说自己定义了合规制度。</dd>
+            </dl>
+          </article>
+
+          <article class="card search-item" data-search="FastAPI RESTful Python Pydantic 后端接口">
+            <h3>FastAPI</h3>
+            <p class="tagline">封装问答、检索、反馈和状态接口。</p>
+            <dl>
+              <dt>作用</dt><dd>对前端提供问答、检索结果、引用来源、风险提示、复核状态等接口。</dd>
+              <dt>好处</dt><dd>异步支持好，和 Pydantic 配合紧密，接口文档自动生成。</dd>
+              <dt>类似技术</dt><dd>Flask、Django REST Framework、Tornado、Sanic。</dd>
+              <dt>风险</dt><dd>要能讲接口字段、异常返回、日志记录，别只讲“搭了后端”。</dd>
+            </dl>
+          </article>
+
+          <article class="card search-item" data-search="Redis 缓存 FAQ 会话 状态">
+            <h3>Redis</h3>
+            <p class="tagline">缓存高频问答、会话状态或临时结果。</p>
+            <dl>
+              <dt>作用</dt><dd>用于 FAQ 缓存、会话上下文、热点数据或任务状态。</dd>
+              <dt>好处</dt><dd>读写快，适合降低重复查询和接口响应时间。</dd>
+              <dt>类似技术</dt><dd>Memcached、本地 LRU、数据库缓存表。</dd>
+              <dt>风险</dt><dd>要能说缓存失效策略，至少说“按业务更新或 TTL 清理”。</dd>
+            </dl>
+          </article>
+
+          <article class="card search-item" data-search="MySQL PostgreSQL 元数据 问答 数据库">
+            <h3>MySQL / PostgreSQL</h3>
+            <p class="tagline">保存结构化业务数据和元数据。</p>
+            <dl>
+              <dt>作用</dt><dd>存 FAQ、用户反馈、引用元信息、医生复核状态、评测记录。</dd>
+              <dt>好处</dt><dd>事务和结构化查询稳定，方便统计和审计。</dd>
+              <dt>类似技术</dt><dd>SQLite、MongoDB、Elasticsearch、ClickHouse。</dd>
+              <dt>风险</dt><dd>如果写 PostgreSQL，就准备说明是否用了 JSONB；如果没用，就不要主动展开。</dd>
+            </dl>
+          </article>
+
+          <article class="card search-item" data-search="React TypeScript Ant Design 前端 引用 展示">
+            <h3>React + TypeScript + Ant Design</h3>
+            <p class="tagline">展示问答结果、引用来源、风险提示和复核状态。</p>
+            <dl>
+              <dt>作用</dt><dd>实现患者问询页、报告解析结果、加载态、异常态、反馈入口。</dd>
+              <dt>好处</dt><dd>TS 约束字段，AntD 提供成熟表单和组件，适合业务后台类页面。</dd>
+              <dt>类似技术</dt><dd>Vue + Element Plus、Arco Design、Naive UI、Next.js。</dd>
+              <dt>风险</dt><dd>要能讲清楚“引用来源怎么展示、流式回答怎么处理、错误态怎么提示”。</dd>
+            </dl>
+          </article>
+
+          <article class="card search-item" data-search="PyMuPDF PDF 报告解析 OCR pdfplumber PaddleOCR">
+            <h3>PyMuPDF</h3>
+            <p class="tagline">解析 PDF 报告或资料文本。</p>
+            <dl>
+              <dt>作用</dt><dd>从 PDF 资料或体检报告中抽取文本、页码和基础布局信息。</dd>
+              <dt>好处</dt><dd>速度快，适合文本型 PDF 的工程解析。</dd>
+              <dt>类似技术</dt><dd>pdfplumber、pypdf、PaddleOCR、Tesseract OCR。</dd>
+              <dt>风险</dt><dd>扫描件需要 OCR，不能说 PyMuPDF 能解决所有 PDF 识别问题。</dd>
+            </dl>
+          </article>
+
+          <article class="card search-item" data-search="asyncio gather 并行 并发 P95">
+            <h3>asyncio.gather</h3>
+            <p class="tagline">并行执行多个独立评审任务。</p>
+            <dl>
+              <dt>作用</dt><dd>血常规、肝功、血脂等指标可并行解读，减少串行等待。</dd>
+              <dt>好处</dt><dd>对 IO 型 LLM 调用和接口调用有明显收益。</dd>
+              <dt>类似技术</dt><dd>线程池、任务队列、Celery、并行 Agent 节点。</dd>
+              <dt>风险</dt><dd>要说明异常隔离和超时处理，避免一个节点失败拖垮整体。</dd>
+            </dl>
+          </article>
+
+          <article class="card search-item" data-search="Evaluation Recall@5 引用命中率 P95 bad case">
+            <h3>Evaluation 指标</h3>
+            <p class="tagline">用小规模标注集证明调优方向。</p>
+            <dl>
+              <dt>作用</dt><dd>记录 Recall@5、引用命中率、拒答准确性、P95 耗时、bad case。</dd>
+              <dt>好处</dt><dd>比“感觉效果更好”更可信，也方便复盘具体问题。</dd>
+              <dt>类似技术</dt><dd>RAGAS、DeepEval、TruLens、人工标注评测表。</dd>
+              <dt>风险</dt><dd>必须说明是开发测试口径，不要包装成线上业务指标。</dd>
+            </dl>
+          </article>
+        </div>
+      </section>
+
+      <section id="qa">
+        <div class="section-title">
+          <h2>严厉追问答案库</h2>
+          <span>按“面试官怎么追、推荐回答、不能这么答”准备。</span>
+        </div>
+        <div class="qa">
+          <details class="search-item" data-search="项目边界 两个项目重复 RAG Agent 多 Agent">
+            <summary><span class="priority hot">高危</span> 你这两个项目是不是同一个项目拆成两段写？</summary>
+            <div class="answer">
+              <p><span class="label">推荐回答</span>不是简单拆分。RAG 问答系统更偏底座，重点是资料清洗、FAQ、混合召回、重排、引用和安全拒答；多 Agent 系统更偏业务编排，负责患者输入后的分诊路由、状态机追问、报告并行解读和医生复核。多 Agent 里的医学指南 RAG Agent 调用的是知识库能力。</p>
+              <div class="bad"><span class="label">不要说</span>“两个项目都是我独立负责的完整医疗 AI 系统。”这会显得范围过大。</div>
+            </div>
+          </details>
+
+          <details class="search-item" data-search="个人职责 一年经验 负责 参与">
+            <summary><span class="priority hot">高危</span> 你一年经验，怎么会负责这么多核心架构？</summary>
+            <div class="answer">
+              <p><span class="label">推荐回答</span>我没有负责整体架构，架构和医疗安全边界是团队一起定的。我主要负责可落地的工程部分：状态结构、部分 Agent 节点、RAG 数据处理、接口封装、前端展示和 bad case 复盘。简历里我用“参与”和“负责”区分了范围，能展开讲的是自己亲手做过的链路。</p>
+              <div class="bad"><span class="label">不要说</span>“整体架构都是我设计的。”面试官会直接追系统设计、合规和上线责任。</div>
+            </div>
+          </details>
+
+          <details class="search-item" data-search="LangGraph State 节点 条件边 状态结构">
+            <summary><span class="priority hot">高危</span> LangGraph 的 State 具体怎么设计？</summary>
+            <div class="answer">
+              <p><span class="label">推荐回答</span>State 不是只放聊天记录，而是放业务字段。比如 patient_info、chief_complaint、symptoms、history、allergy、medication、risk_flags、department_suggestion、report_abnormal_items、rag_context、review_status。节点只读写自己负责的字段，条件边根据 risk_flags、missing_fields、review_status 决定下一步。</p>
+              <p><span class="label">追问准备</span>如果校验失败，我会让节点返回固定错误结构或进入补充追问，而不是让后续节点解析不完整字段。</p>
+            </div>
+          </details>
+
+          <details class="search-item" data-search="状态机 追问覆盖率 88 缺失字段">
+            <summary><span class="priority hot">高危</span> 追问覆盖率 88% 是怎么算的？</summary>
+            <div class="answer">
+              <p><span class="label">推荐回答</span>这是开发测试口径，不是线上指标。我们用 50 条预问诊样例标注关键缺失字段，比如年龄、持续时间、伴随症状、既往史、过敏史。系统生成追问后，看是否覆盖这些标注缺失项，覆盖项数除以应追问项数，大约 88%。</p>
+              <div class="bad"><span class="label">不要说</span>“线上用户满意度提升 88%。”这和简历指标完全不是一回事。</div>
+            </div>
+          </details>
+
+          <details class="search-item" data-search="危急症状 拦截 19/20 漏召">
+            <summary><span class="priority hot">高危</span> 危急症状 20 条命中 19 条，漏掉的那条为什么没命中？</summary>
+            <div class="answer">
+              <p><span class="label">推荐回答</span>我会把它解释成规则表达覆盖问题。比如用户没有直接说“胸痛”，而是说“胸口像被压住、冒冷汗”，初版规则只覆盖了显式关键词，后来把近似表达、同义词和组合症状加入规则或交给风险分类节点复核。</p>
+              <p><span class="label">关键点</span>医疗安全场景里漏召比误召更严重，所以宁愿把疑似高危转人工，也不要让模型继续普通问询。</p>
+            </div>
+          </details>
+
+          <details class="search-item" data-search="HitL 医生复核 审批流 待复核">
+            <summary><span class="priority hot">高危</span> 你们的医生 HitL 是真有医生端，还是简历包装？</summary>
+            <div class="answer">
+              <p><span class="label">推荐回答</span>我的口径是实现“待复核状态流转和展示”，不是说我负责完整医生工作台。AI 生成导诊建议、报告解读和摘要后，接口返回 review_status=pending，前端展示待复核，医生确认或修正后状态更新为 approved/revised。未经确认的内容只作为辅助草稿。</p>
+              <div class="bad"><span class="label">不要说</span>“AI 输出直接给患者看，只是加免责声明。”医疗场景这样说会很危险。</div>
+            </div>
+          </details>
+
+          <details class="search-item" data-search="报告解读 80 指标 一致率 90 参考范围">
+            <summary><span class="priority hot">高危</span> 报告异常项一致率 90% 怎么评？参考范围怎么处理？</summary>
+            <div class="answer">
+              <p><span class="label">推荐回答</span>这是对 20 份脱敏报告里 80+ 指标做人工抽检，主要看三点：异常项是否定位正确、参考范围是否解释正确、通俗解释是否越界诊断。参考范围会优先使用报告原文里的范围，不自己推断男女年龄差异；如果报告没有范围，只做谨慎解释并提示以医院报告和医生意见为准。</p>
+              <div class="bad"><span class="label">不要说</span>“可以根据指标判断疾病。”应该说“提示关注异常项，不输出确诊结论”。</div>
+            </div>
+          </details>
+
+          <details class="search-item" data-search="并行 asyncio 70% 耗时 降低">
+            <summary><span class="priority mid">常问</span> 并行节点耗时降低 70%，为什么能降这么多？</summary>
+            <div class="answer">
+              <p><span class="label">推荐回答</span>因为部分报告指标或质控维度之间互不依赖，串行时每个 LLM/API 调用都要等待上一个完成；改成 asyncio.gather 后，总耗时更接近最慢的单个任务，而不是所有任务耗时相加。这个指标是测试样例口径，主要用于证明并行化方向有效。</p>
+              <p><span class="label">补充</span>并行也要加超时和异常隔离，否则一个任务失败会影响整体结果。</p>
+            </div>
+          </details>
+
+          <details class="search-item" data-search="Recall@5 Top5 召回率 评估 标注问答集">
+            <summary><span class="priority hot">高危</span> RAG 的 Recall@5 怎么算？</summary>
+            <div class="answer">
+              <p><span class="label">推荐回答</span>基于内部 120 条标注问答集，每个问题标注一个或多个可支持答案的知识片段。检索返回 Top5 后，只要 Top5 里包含任一标注支持片段，就记为召回成功。成功问题数除以总问题数就是 Recall@5。</p>
+              <div class="bad"><span class="label">不要说</span>“召回率就是用户觉得回答对。”用户主观满意不是 Recall@5。</div>
+            </div>
+          </details>
+
+          <details class="search-item" data-search="引用命中率 citation hit rate 答案溯源">
+            <summary><span class="priority mid">常问</span> 答案引用命中率 68% 到 81% 是什么？</summary>
+            <div class="answer">
+              <p><span class="label">推荐回答</span>它看的是生成答案里展示的引用来源是否真的支持回答，而不仅是检索到了相关片段。我们抽查答案对应引用，如果引用片段能覆盖核心结论，就算命中。提升主要来自父子分块、metadata 过滤和 reranker 调整。</p>
+              <p><span class="label">关键点</span>引用命中率比单纯召回更接近用户能看到的可追溯质量。</p>
+            </div>
+          </details>
+
+          <details class="search-item" data-search="P95 1.8s FAQ 300ms 不含模型生成">
+            <summary><span class="priority hot">高危</span> 你写 P95 不含模型生成，那整体耗时是多少？</summary>
+            <div class="answer">
+              <p><span class="label">推荐回答</span>我会明确区分链路耗时和端到端耗时。简历里的 P95 指检索和重排链路，不含 LLM 生成，因为模型生成受模型服务、输出长度和流式返回影响很大。端到端用户感知会通过流式输出改善首字响应，但完整回答耗时要按实际模型服务统计。</p>
+              <div class="bad"><span class="label">不要说</span>“整个大模型回答 1.8 秒稳定完成。”这很容易被追穿。</div>
+            </div>
+          </details>
+
+          <details class="search-item" data-search="BM25 向量融合 hybrid search RRF">
+            <summary><span class="priority hot">高危</span> BM25 和向量召回怎么融合？</summary>
+            <div class="answer">
+              <p><span class="label">推荐回答</span>如果项目没有复杂算法，就不要硬讲公式。可以说开发阶段主要做候选集合并：BM25 取一批关键词候选，向量召回取一批语义候选，去重后带上来源和分数，再交给 BGE-Reranker 统一重排。这样比手工融合分数更容易解释和调试。</p>
+              <p><span class="label">进阶</span>如果被追 RRF，可以说明 RRF 是按排名做倒数融合，不依赖不同检索器分数尺度一致。</p>
+            </div>
+          </details>
+
+          <details class="search-item" data-search="rerank_k top_k 参数 调优">
+            <summary><span class="priority mid">常问</span> top_k、rerank_k、score 阈值怎么定？</summary>
+            <div class="answer">
+              <p><span class="label">推荐回答</span>不是拍脑袋，而是看 Recall、引用命中和 P95。top_k 太小会漏召，太大会增加重排耗时和噪声；rerank_k 要控制在重排模型能承受的范围内；score 阈值用于低置信度拒答或转人工。最终参数用 bad case 和小规模标注集迭代。</p>
+              <div class="bad"><span class="label">不要说</span>“一般都设 5。”不同资料规模和模型延迟下没有固定答案。</div>
+            </div>
+          </details>
+
+          <details class="search-item" data-search="BGE-M3 为什么选 embedding 模型">
+            <summary><span class="priority mid">常问</span> 为什么选 BGE-M3，不选别的 embedding？</summary>
+            <div class="answer">
+              <p><span class="label">推荐回答</span>主要考虑中文语义检索效果、社区成熟度和混合检索能力。BGE-M3 对多语言、多粒度和稠密/稀疏表示支持较好，适合医疗咨询这种既有短关键词又有长描述的问题。但我不会说它一定最好，模型选择需要结合数据集评测。</p>
+            </div>
+          </details>
+
+          <details class="search-item" data-search="Milvus 为什么不用 Elasticsearch FAISS">
+            <summary><span class="priority mid">常问</span> 为什么用 Milvus，不用 Elasticsearch 或 FAISS？</summary>
+            <div class="answer">
+              <p><span class="label">推荐回答</span>Milvus 更偏向量数据库，适合管理向量集合、索引和向量召回；Elasticsearch 更强在关键词检索，FAISS 更像向量检索库，工程化的数据管理能力要自己补。项目里 Milvus 承担向量召回，BM25/FAQ 承担关键词和标准问答，两者职责不同。</p>
+            </div>
+          </details>
+
+          <details class="search-item" data-search="父子分块 标题层级 分块长度">
+            <summary><span class="priority mid">常问</span> 父子分块具体解决什么问题？</summary>
+            <div class="answer">
+              <p><span class="label">推荐回答</span>医疗资料如果只按固定长度切，容易把适应症、禁忌、注意事项切散。子块小，方便精准召回；父块大，给模型足够上下文。引用可以展示子块命中的来源，同时生成时补充父块上下文，减少断章取义。</p>
+            </div>
+          </details>
+
+          <details class="search-item" data-search="安全 Prompt 医疗拒答 免责声明">
+            <summary><span class="priority hot">高危</span> 医疗安全只靠 Prompt 吗？</summary>
+            <div class="answer">
+              <p><span class="label">推荐回答</span>不靠单一 Prompt。Prompt 只是约束输出风格和边界，前面还有危急词硬规则、RAG 证据约束、低置信度拒答、人工复核状态。医疗场景要把安全规则前置，不能等模型生成后再补免责声明。</p>
+              <div class="bad"><span class="label">不要说</span>“我写了一个强 Prompt，所以模型不会乱答。”这非常不可信。</div>
+            </div>
+          </details>
+
+          <details class="search-item" data-search="FastAPI 接口 字段 日志 反馈">
+            <summary><span class="priority safe">基础</span> FastAPI 部分你具体做了什么？</summary>
+            <div class="answer">
+              <p><span class="label">推荐回答</span>我会说自己封装过问答接口、检索结果结构、反馈记录接口，返回答案、引用、风险提示、耗时、review_status 等字段；同时处理异常状态，比如检索为空、模型超时、字段缺失，让前端能稳定展示。</p>
+            </div>
+          </details>
+
+          <details class="search-item" data-search="React 前端 引用 风险提示 流式">
+            <summary><span class="priority safe">基础</span> 前端怎么体现 AI 应用能力？</summary>
+            <div class="answer">
+              <p><span class="label">推荐回答</span>AI 应用前端不只是展示一段回答，还要展示引用来源、风险提示、加载状态、失败状态、医生复核状态和用户反馈。我的工作重点是把后端返回的结构化字段准确映射到页面，避免用户误把 AI 草稿当正式医疗意见。</p>
+            </div>
+          </details>
+
+          <details class="search-item" data-search="bad case 复盘 怎么沉淀">
+            <summary><span class="priority mid">常问</span> bad case 复盘具体怎么做？</summary>
+            <div class="answer">
+              <p><span class="label">推荐回答</span>我会按问题类型记录：召回错、重排错、引用缺失、Prompt 越界、拒答不稳定、前端展示误导。每条记录包含 query、期望答案、召回片段、最终回答、问题原因和修改动作。这样下次调参不是凭感觉，而是围绕具体样例验证。</p>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <section id="scripts">
+        <div class="section-title">
+          <h2>项目话术</h2>
+          <span>控制在初级/一年经验能站得住的范围。</span>
+        </div>
+        <div class="grid">
+          <article class="card wide good search-item" data-search="RAG 项目 自述 话术">
+            <h3>医疗知识库 RAG 问答系统怎么讲</h3>
+            <div class="script">
+              这个项目更偏知识库问答底座。我主要做的是医疗资料清洗、元数据标注、父子分块，以及 FAQ 快速命中和 RAG 检索链路的接入调优。技术上用了 BM25 和 BGE-M3 向量召回做候选，再用 BGE-Reranker 重排，最后把引用来源、安全提示和免责声明一起返回给前端。评估上不是线上指标，而是用内部 120 条标注问答集看 Recall@5、引用命中率和拒答效果，通过 bad case 迭代分块、召回参数和 Prompt。
+            </div>
+          </article>
+
+          <article class="card wide good search-item" data-search="多 Agent 项目 自述 话术">
+            <h3>医疗导诊与报告解读多 Agent 系统怎么讲</h3>
+            <div class="script">
+              这个项目更偏业务流程编排，RAG 只是其中一个知识增强节点。团队把流程拆成分诊路由、症状问询、医学指南 RAG、报告解读和医生复核几个节点。我主要参与节点输入输出、问诊状态结构、危急词前置规则、报告指标并行解读和复核状态流转。这个项目的重点不是让 AI 诊断，而是让 AI 辅助采集信息、整理摘要、提示风险，最后必须由医生确认。
+            </div>
+          </article>
+
+          <article class="card full warn search-item" data-search="个人定位 人设 初级 开发">
+            <h3>个人定位一句话</h3>
+            <p>我的定位不是大模型架构师，而是能把医疗 RAG 和 Agent Workflow 落到业务页面里的 AI 应用开发：我能做数据清洗、检索链路接入、状态结构、接口封装、前端展示和评测复盘，也知道医疗场景里 AI 必须有安全边界和人工兜底。</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="danger">
+        <div class="section-title">
+          <h2>不能这么答</h2>
+          <span>这些回答会让面试官迅速提高压力。</span>
+        </div>
+        <table class="matrix">
+          <thead>
+            <tr>
+              <th>危险说法</th>
+              <th>为什么危险</th>
+              <th>替代表达</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="search-item" data-search="独立负责 架构">
+              <td>“整个医疗 Agent 架构都是我设计的。”</td>
+              <td>一年经验不合理，会被追问系统设计、合规、上线责任。</td>
+              <td>“团队确定整体方案，我负责部分节点实现、状态结构、接口联调和评测记录。”</td>
+            </tr>
+            <tr class="search-item" data-search="诊断 疾病 医疗">
+              <td>“系统可以诊断疾病。”</td>
+              <td>医疗红线，AI 不能替代医生诊断。</td>
+              <td>“系统做科普解释、风险提示和接诊前摘要，正式意见需要医生复核。”</td>
+            </tr>
+            <tr class="search-item" data-search="线上 指标 夸大">
+              <td>“效率提升 90%，准确率 95%。”</td>
+              <td>口径不清，像编数据。</td>
+              <td>“开发测试集中，某项指标从 A 提升到 B，样本量和评估方法是……”</td>
+            </tr>
+            <tr class="search-item" data-search="Prompt 安全">
+              <td>“我靠 Prompt 控制模型不乱答。”</td>
+              <td>安全控制太单薄。</td>
+              <td>“Prompt 只是其中一层，还配合危急词规则、RAG 证据、拒答和人工复核。”</td>
+            </tr>
+            <tr class="search-item" data-search="Milvus 向量数据库">
+              <td>“Milvus 就是存文本的数据库。”</td>
+              <td>概念错误。</td>
+              <td>“Milvus 存向量和元数据，用于相似度召回；原文和业务元数据可存在关系库或对象存储。”</td>
+            </tr>
+            <tr class="search-item" data-search="Reranker Embedding">
+              <td>“Embedding 和 Reranker 差不多。”</td>
+              <td>说明检索链路没理解。</td>
+              <td>“Embedding 用于初召回，Reranker 对 query-passage 组合做更精细排序。”</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="card full risk search-item" data-search="最后复盘 背诵 检查清单">
+          <h3>最后 30 分钟复盘清单</h3>
+          <ul class="two-col">
+            <li>能画出两个项目的关系：RAG 底座，多 Agent 编排。</li>
+            <li>能说出 LangGraph State 至少 8 个字段。</li>
+            <li>能解释 50 条、20 份、120 条这些指标的样本口径。</li>
+            <li>能说清 Recall@5 和引用命中率的区别。</li>
+            <li>能解释 BM25、向量召回、Reranker 的分工。</li>
+            <li>能承认自己不是架构负责人，只负责可落地模块。</li>
+            <li>能说清医疗场景为什么必须人工复核。</li>
+            <li>能说出一个 bad case 以及你怎么改。</li>
+            <li>能解释 P95 不含模型生成，不把指标吹成端到端。</li>
+            <li>能把“诊断”全部替换成“科普、提示、辅助、复核”。</li>
+          </ul>
+        </div>
+      </section>
+
+      <footer>
+        这份页面用于面试准备。所有医疗相关表述均按“AI 辅助、科普解释、风险提示、医生复核”的边界组织，不作为医疗建议。
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    const input = document.getElementById("search");
+    const items = Array.from(document.querySelectorAll(".search-item"));
+    const visibleCount = document.getElementById("visibleCount");
+
+    function normalize(value) {
+      return value.toLowerCase().replace(/\s+/g, "");
+    }
+
+    function applyFilter() {
+      const key = normalize(input.value);
+      let count = 0;
+      items.forEach((item) => {
+        const haystack = normalize(item.textContent + " " + (item.dataset.search || ""));
+        const hit = !key || haystack.includes(key);
+        item.classList.toggle("hidden", !hit);
+        if (hit) count += 1;
+      });
+      visibleCount.textContent = count;
+    }
+
+    input.addEventListener("input", applyFilter);
+    applyFilter();
+  </script>
+</body>
+</html>
