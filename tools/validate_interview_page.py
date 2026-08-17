@@ -31,8 +31,12 @@ def main() -> None:
         (html.count('class="qa-card') == len(questions), "detailed question card count mismatch"),
         (html.count('class="tech-card') == len(tech_points), "technical card count mismatch"),
         (html.count('class="pressure-item') == len(pressure_questions), "pressure question count mismatch"),
+        (html.count('class="pressure-answer"') == len(pressure_questions), "pressure answer block count mismatch"),
         ("严厉面试官追问题库" in html, "missing strict interviewer section title"),
         ("data-pressure-cat" in html, "pressure questions must expose searchable category metadata"),
+        ("口语化短答" in html, "missing pressure answer label"),
+        ("答题要点" in html, "missing pressure answer points label"),
+        ("避坑提醒" in html, "missing pressure avoid label"),
     ]
 
     for ok, message in checks:
@@ -45,11 +49,17 @@ def main() -> None:
         if missing:
             fail(f"detailed question {index} missing fields: {', '.join(missing)}")
 
-    required_pressure_fields = {"cat", "q", "risk", "focus"}
+    required_pressure_fields = {"cat", "q", "risk", "focus", "answer", "points", "avoid"}
     for index, item in enumerate(pressure_questions, 1):
         missing = [key for key in required_pressure_fields if not str(item.get(key, "")).strip()]
         if missing:
             fail(f"pressure question {index} missing fields: {', '.join(missing)}")
+        if len(str(item["answer"])) < 45:
+            fail(f"pressure question {index} answer is too short")
+        if not isinstance(item["points"], (list, tuple)) or len(item["points"]) < 2:
+            fail(f"pressure question {index} must have at least two answer points")
+        if len(str(item["avoid"])) < 15:
+            fail(f"pressure question {index} avoid text is too short")
 
     if re.search(r"TODO|TBD|X%|\[填写", html):
         fail("placeholder text found")

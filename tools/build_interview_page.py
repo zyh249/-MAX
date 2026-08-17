@@ -824,8 +824,175 @@ pressure_question_groups = [
 ]
 
 
+CATEGORY_PRESSURE_GUIDE = {
+    "简历真实性与职责边界": {
+        "answer": "然后把话题收回到真实职责：我是 AI 应用开发，主要做资料处理、接口联调、状态字段、页面展示和部分节点实现，整体方案是团队一起定的。",
+        "points": ["先交代身份和时间", "区分负责、参与、了解", "团队成果不要说成个人独立完成"],
+        "avoid": "不要说所有架构、模型、平台和医疗流程都是自己一个人负责。",
+    },
+    "项目背景与业务理解": {
+        "answer": "然后强调业务边界：这个系统解决的是导诊辅助和知识问答，不替代医生诊断；医疗场景里安全规则、引用来源和人工兜底比炫技更重要。",
+        "points": ["先讲业务痛点", "再讲 AI 辅助边界", "最后讲医生复核和安全兜底"],
+        "avoid": "不要把项目讲成 AI 自动诊断系统，也不要说模型能直接判断病情。",
+    },
+    "多 Agent 与 LangGraph": {
+        "answer": "然后把 Agent 讲成可控的 Workflow 节点：我主要围绕症状问询和报告解读做状态结构、节点输入输出、异常分支和接口联调，不把自己包装成多 Agent 架构负责人。",
+        "points": ["说明节点职责", "说清 State 字段", "强调自己负责的症状问询和报告解读"],
+        "avoid": "不要把普通流程节点硬说成完全自主智能体，也不要说整体 Agent 架构都由自己设计。",
+    },
+    "医疗安全与高危规则": {
+        "answer": "然后强调安全优先：高危词命中后直接走急诊、120 或人工处理，不继续让大模型生成普通建议；AI 输出只做辅助，医生确认前不能作为正式医疗意见。",
+        "points": ["高危规则前置", "命中后中断普通流程", "AI 只辅助，医生兜底"],
+        "avoid": "不要说模型可以自己判断是否严重，也不要弱化高危症状的人工处理。",
+    },
+    "RAG 知识库链路": {
+        "answer": "然后按链路讲：资料清洗和分块先保证知识质量，BM25 解决关键词召回，BGE-M3 解决语义召回，Reranker 做重排，最后用引用来源和拒答策略控制回答边界。",
+        "points": ["离线建库", "混合召回和重排", "引用来源和无依据拒答"],
+        "avoid": "不要只说接了一个向量库，也不要说检索不到资料还让模型自由发挥。",
+    },
+    "评估指标与数据可信度": {
+        "answer": "然后主动说明口径：这些是上线试运行或内部评估指标，不是医学有效性结论；我会讲清样本来源、分母分子、统计范围和局限性。",
+        "points": ["说明数据来源", "说明统计口径", "承认样本量和评估边界"],
+        "avoid": "不要把开发测试集结果说成线上医学准确率，也不要用 99% 这类过满数字。",
+    },
+    "报告解读与 PDF 解析": {
+        "answer": "然后讲实现边界：我负责的是报告文本和指标的结构化解析、异常项提示和通俗解释；扫描件、参考范围差异和医生诊断都要保守处理。",
+        "points": ["文本提取和指标解析", "异常项提示，不做诊断", "失败和低置信度要兜底"],
+        "avoid": "不要说 PyMuPDF 能解决所有报告识别，也不要把异常解释讲成确诊。",
+    },
+    "后端与数据链路": {
+        "answer": "然后落到工程细节：FastAPI 提供问答、检索、反馈和复核状态接口；数据库记录 FAQ、引用、日志和反馈；Redis 更多用于缓存、会话或临时状态。",
+        "points": ["接口字段", "日志和反馈", "异常处理和缓存"],
+        "avoid": "不要只说写过接口，要能说出请求响应、异常返回和日志字段。",
+    },
+    "前端 React / TypeScript / Ant Design": {
+        "answer": "然后讲页面职责：我主要做问答结果、引用来源、风险提示、报告异常项、加载状态和异常状态展示；前端重点是让用户知道答案依据和当前流程状态。",
+        "points": ["页面状态", "引用和风险提示", "类型约束和异常展示"],
+        "avoid": "不要把前端说成只是调接口，也不要忽略医疗提示和待复核状态。",
+    },
+    "模型与 Prompt": {
+        "answer": "然后把定位收住：我不是做底层模型训练，更多是模型应用，负责把检索上下文、安全规则和输出格式组织进 Prompt，并处理结构化输出失败的问题。",
+        "points": ["模型应用定位", "Prompt 约束", "结构化输出和失败兜底"],
+        "avoid": "不要把自己说成模型训练专家，也不要硬讲没有项目支撑的模型细节。",
+    },
+    "简历语言与可信度压力题": {
+        "answer": "然后用一个具体例子回答，不讲空话：比如一次召回错位怎么定位到分块和 metadata，或者一次 JSON 解析失败怎么加 Pydantic 校验和重试。",
+        "points": ["抽象词落到案例", "说清自己的动作", "说清结果和边界"],
+        "avoid": "不要继续堆工程化、稳定性、闭环这类大词，必须讲具体问题。",
+    },
+    "终极压力题": {
+        "answer": "然后保持诚实：能证明的讲日志、接口文档、页面和试运行数据；不能证明的就说是团队项目或开发测试口径，把重点放回自己真实做过的模块。",
+        "points": ["承认边界", "拿可验证材料说话", "回到个人贡献"],
+        "avoid": "不要为了撑场面编上线规模、医生背书或医学准确率。",
+    },
+}
+
+
+QUESTION_LENSES = [
+    (("岗位", "实习", "正式"), "这题先把身份说清楚：大四进入公司后按 AI 应用开发参与项目，实习、试用或正式身份按真实情况说明。"),
+    (("起止时间", "对应"), "这题先补时间口径：工作经历和项目经历要能对上，项目重叠就解释为前期 RAG 底座和后期 Agent 业务编排并行。"),
+    (("重叠", "同时"), "这题要说明两个项目的关系：RAG 是知识能力底座，Agent 是上层业务流程，重叠阶段主要是复用检索能力并接入新流程。"),
+    (("真实上线", "培训", "原型"), "这题不要硬扛，按真实情况说成上线试运行、内部系统或技术支持；能拿日志和页面说话，比说大话更稳。"),
+    (("核心开发", "辅助开发", "前端"), "这题要区分层级：核心模块我参与实现，整体架构团队确定，我主要负责可落地的工程链路和联调。"),
+    (("LangGraph", "LangChain", "Dify", "Coze", "RAGFlow"), "这题要分熟悉程度：Dify/Coze 偏快速验证，LangChain/RAGFlow 偏 RAG 链路，LangGraph 偏流程编排。"),
+    (("一年", "技术栈", "3 个"), "这题别说全都精通，选 RAG 检索链路、FastAPI 接口和症状问询/报告解读节点作为最有把握的三块。"),
+    (("亲自", "代码"), "这题要讲自己写过的东西：清洗脚本、分块规则、接口封装、状态字段、前端展示和部分节点逻辑。"),
+    (("架构图", "数据库表", "状态字段"), "这题可以说能画主流程、核心接口和状态字段，但底层部署和合规流程不是自己主导。"),
+    (("医生", "患者", "真实业务角色"), "这题要说明医生复核是真实业务角色还是模拟流程，别把测试页面说成真实医生长期使用。"),
+    (("核心业务问题", "普通问答"), "这题重点说普通问答缺少流程控制和医疗兜底，导诊需要状态采集、风险拦截和复核。"),
+    (("完整流程", "每一步"), "这题按入口、风险判断、问诊追问、RAG 检索、报告解读、医生复核、前端展示的顺序讲。"),
+    (("不能", "诊断"), "这题直接说 AI 只做科普解释和辅助摘要，诊断权属于医生，系统通过 Prompt、规则和复核状态限制输出。"),
+    (("癌症", "能不能吃"), "这题要拒绝确诊或用药结论，转成风险提示、建议线下就医和引用权威资料的科普说明。"),
+    (("资料来源", "哪里来"), "这题要说资料来源类型和维护方式，别说随便从网上爬；要强调脱敏、来源记录和更新时间。"),
+    (("脱敏", "身份证", "姓名"), "这题重点讲去标识化：姓名、电话、身份证、医院编号等字段不能进入训练或公开日志。"),
+    (("为什么", "多 Agent"), "这题回答多 Agent 是为了把导诊流程拆成可控节点，不是为了炫技；每个节点职责清晰，便于中断和复核。"),
+    (("真正独立智能体", "业务节点"), "这题要主动承认更准确叫 Workflow 节点，按状态和条件边执行，不是完全自主规划。"),
+    (("State", "字段"), "这题准备字段：患者基础信息、症状、病史、风险标记、科室建议、报告异常项、复核状态。"),
+    (("TypedDict", "Pydantic"), "这题说 TypedDict 描述状态结构，Pydantic 做运行时校验和结构化解析，减少节点间字段混乱。"),
+    (("conditional edge", "条件边"), "这题说根据 risk_flags、missing_fields、has_report、review_status 决定下一节点。"),
+    (("失败", "超时", "格式错误"), "这题讲超时、重试、默认兜底、错误状态返回和日志记录，不要说系统不会失败。"),
+    (("checkpoint", "持久化", "刷新"), "这题讲会话状态是否持久化到 Redis 或数据库；没做就说目前是接口状态和日志记录，不硬编。"),
+    (("高危词", "胸痛"), "这题要说高危词来自业务规则和医生建议，命中后直接转急诊提示或人工处理。"),
+    (("误报", "漏报"), "这题说高危规则宁可偏保守，同时通过近义表达和人工复盘减少漏报。"),
+    (("昨天胸痛", "现在好了"), "这题不能简单放行，要提示关注并建议医生判断，规则上可降低紧急级别但不直接给诊断。"),
+    (("绕开规则", "不舒服"), "这题说会补充近义词、症状归一化和人工复盘，低置信度时转人工或提示就医。"),
+    (("FAQ", "双通路"), "这题讲 FAQ 解决高频标准问题，RAG 解决复杂开放问题，二者兼顾速度和证据。"),
+    (("BM25", "Embedding"), "这题说 BM25 管精确词，Embedding 管语义相似，混合召回后再重排。"),
+    (("Milvus", "collection"), "这题说 Milvus 存知识块向量和索引，原文、元数据通常还在关系库或文档存储里。"),
+    (("BGE-M3", "稠密", "稀疏"), "这题先按项目实际说用 BGE-M3 做语义向量，不确定稀疏能力就不要硬讲实现细节。"),
+    (("Reranker", "重排"), "这题说 Reranker 同时看 query 和候选片段，适合把初召回里的噪声排下去。"),
+    (("top_k", "rerank_k"), "这题要说参数来自 bad case 和评估折中，不能只追求更多召回，因为会增加噪声和耗时。"),
+    (("分数融合", "归一化"), "这题如果没做复杂公式，就说候选合并后交给 reranker，不要装成算法专家。"),
+    (("父子分块", "固定长度"), "这题讲子块精准召回、父块补上下文，避免药品禁忌和注意事项被切散。"),
+    (("引用来源", "父块", "子块"), "这题要说明展示引用时保留资料名、标题层级和片段，生成上下文可用父块补充。"),
+    (("检索不到", "怎么回答"), "这题必须说拒答或人工复核，不让模型无依据生成。"),
+    (("120", "标注问答"), "这题说是内部标注或人工整理评估集，不是公开医学实验数据。"),
+    (("Recall@5", "计算"), "这题讲看正确证据是否出现在前 5 个召回结果里，有多个正确文档时命中任一或按标注规则统计。"),
+    (("引用命中率", "区别"), "这题说 Recall 看检索有没有召回正确证据，引用命中率看最终答案是否展示了正确来源。"),
+    (("P95", "响应"), "这题说明 P95 是 95% 请求耗时不超过该值，最好区分检索耗时和大模型生成耗时。"),
+    (("数据量", "太小"), "这题要承认样本量有限，只能代表开发测试和试运行观察，不能等同全场景医学效果。"),
+    (("PyMuPDF", "PDF"), "这题说 PyMuPDF 适合文本型 PDF，扫描件需要 OCR，表格错位要规则和人工抽检兜底。"),
+    (("参考范围", "年龄", "性别"), "这题讲参考范围要按报告原文和结构化字段取，不能自己拍脑袋统一阈值。"),
+    (("asyncio.gather", "并发"), "这题讲并行适合独立指标解析，但要做超时、异常隔离和限流。"),
+    (("FastAPI", "接口"), "这题说接口包括问答、检索结果、反馈、复核状态，响应里要带答案、引用和风险提示。"),
+    (("MySQL", "PostgreSQL"), "这题如果两个都写，要说清分别用途；不确定就收敛到实际用过的一个。"),
+    (("Redis", "缓存"), "这题讲 Redis 用于 FAQ 缓存、会话状态或临时任务，注意 TTL 和缓存失效。"),
+    (("CORS", "联调"), "这题说跨域、字段名不一致、错误码和空状态是常见联调问题。"),
+    (("流式", "SSE", "WebSocket"), "这题如果没做流式就说普通请求加加载状态；做了再讲 SSE 或 WebSocket。"),
+    (("引用来源", "点击"), "这题讲前端展示资料名、标题和片段，有条件再支持定位原文。"),
+    (("TypeScript", "Pydantic"), "这题说前后端通过接口文档和字段约定保持一致，关键字段在 TS 类型里约束。"),
+    (("Qwen", "本地", "API"), "这题按实际说本地部署或 API，不确定就说项目里主要接入生成能力，部署方式由团队统一。"),
+    (("Prompt", "不能诊断"), "这题要说 Prompt 里写明只基于检索证据、必须引用、无依据拒答、不输出诊断结论。"),
+    (("微调", "Prompt"), "这题说业务资料变化快、需要可追溯，所以优先 RAG 和 Prompt，而不是一上来微调。"),
+    (("Transformer", "Q/K/V"), "这题简要讲注意力用 Q 和 K 计算相关性，再用权重加权 V，不要展开太深。"),
+    (("bad case", "完整闭环"), "这题准备一个例子：问题召回错文档，定位到分块或元数据，调参数后再复测。"),
+    (("真实用户量", "截图", "接口文档"), "这题按能证明的说日志、页面、接口文档和试运行数据，不能证明就不夸大。"),
+    (("版权", "来源"), "这题说资料要有业务方提供或授权来源，保留来源字段和更新时间。"),
+    (("高危症状规则", "RAG 答案冲突"), "这题回答安全规则优先于 RAG 答案，医疗高危场景先转人工或急诊。"),
+    (("删掉一个", "不敢被深问"), "这题建议删掉没项目支撑的技术，比如 Dify/Coze 或某个模型训练框架，保留主线技术。"),
+]
+
+
+def pressure_lens(question: str) -> str:
+    for keywords, lens in QUESTION_LENSES:
+        if all(keyword in question for keyword in keywords):
+            return lens
+    return "这题先别急着背概念，先把问题拆成背景、个人动作、结果口径和边界四部分回答。"
+
+
+def pressure_point(question: str) -> str:
+    if "指标" in question or "Recall" in question or "P95" in question or "准确" in question:
+        return "数字必须讲清分母、分子、样本范围和统计口径"
+    if "Agent" in question or "LangGraph" in question or "State" in question:
+        return "Agent 回答重点放在状态、节点职责和条件流转"
+    if "RAG" in question or "BM25" in question or "Milvus" in question or "Reranker" in question:
+        return "RAG 回答按资料、召回、重排、引用和拒答链路展开"
+    if "高危" in question or "急诊" in question or "医生" in question:
+        return "医疗问题先讲安全前置和医生人工兜底"
+    if "前端" in question or "React" in question or "TypeScript" in question:
+        return "前端回答要落到页面状态、字段类型和异常展示"
+    if "FastAPI" in question or "Redis" in question or "数据库" in question:
+        return "后端回答要落到接口字段、日志记录和异常处理"
+    return "回答时主动区分自己负责、参与和了解的范围"
+
+
+def build_pressure_question(cat: str, risk: str, focus: str, question: str) -> dict:
+    guide = CATEGORY_PRESSURE_GUIDE[cat]
+    answer = f"{pressure_lens(question)} {guide['answer']}"
+    points = [pressure_point(question), *guide["points"][:2]]
+    return {
+        "cat": cat,
+        "q": question,
+        "risk": risk,
+        "focus": focus,
+        "answer": answer,
+        "points": points,
+        "avoid": guide["avoid"],
+    }
+
+
 pressure_questions = [
-    {"cat": cat, "q": question, "risk": risk, "focus": focus}
+    build_pressure_question(cat, risk, focus, question)
     for cat, risk, focus, group_questions in pressure_question_groups
     for question in group_questions
 ]
@@ -927,7 +1094,14 @@ def render_pressure_buttons() -> str:
 def render_pressure_questions() -> str:
     cards = []
     for idx, item in enumerate(pressure_questions, 1):
-        text = " ".join(item.values())
+        text_parts = []
+        for value in item.values():
+            if isinstance(value, (list, tuple)):
+                text_parts.append(" ".join(str(part) for part in value))
+            else:
+                text_parts.append(str(value))
+        text = " ".join(text_parts)
+        points_html = "\n".join(f"<li>{esc(point)}</li>" for point in item["points"])
         risk_class = {
             "最高": "risk-max",
             "高": "risk-high",
@@ -944,6 +1118,23 @@ def render_pressure_questions() -> str:
                 </div>
                 <p>{esc(item['q'])}</p>
                 <em>{esc(item['focus'])}</em>
+                <details class="pressure-answer">
+                  <summary>展开答案</summary>
+                  <div class="pressure-answer-body">
+                    <div>
+                      <b>口语化短答</b>
+                      <p>{esc(item['answer'])}</p>
+                    </div>
+                    <div>
+                      <b>答题要点</b>
+                      <ul>{points_html}</ul>
+                    </div>
+                    <div class="pressure-avoid">
+                      <b>避坑提醒</b>
+                      <p>{esc(item['avoid'])}</p>
+                    </div>
+                  </div>
+                </details>
               </div>
             </article>
             """
@@ -1257,6 +1448,59 @@ html = f"""<!doctype html>
       font-style: normal;
       font-size: 13px;
     }}
+    .pressure-answer {{
+      margin-top: 10px;
+      border-top: 1px dashed #d8ccbc;
+      overflow: visible;
+    }}
+    .pressure-answer summary {{
+      display: inline-flex;
+      grid-template-columns: none;
+      gap: 0;
+      align-items: center;
+      padding: 7px 0 0;
+      color: #173e65;
+      font-size: 13px;
+      font-weight: 800;
+    }}
+    .pressure-answer summary::after {{
+      content: "";
+    }}
+    .pressure-answer-body {{
+      display: grid;
+      grid-template-columns: 1.35fr .95fr .95fr;
+      gap: 10px;
+      padding-top: 8px;
+    }}
+    .pressure-answer-body > div {{
+      padding: 10px;
+      border: 1px solid #d8ccbc;
+      border-radius: 7px;
+      background: #fffdf8;
+    }}
+    .pressure-answer-body b {{
+      display: block;
+      color: #12345b;
+      margin-bottom: 5px;
+      font-size: 13px;
+    }}
+    .pressure-answer-body p {{
+      margin: 0;
+      color: #303b4c;
+      font-size: 13px;
+      line-height: 1.7;
+    }}
+    .pressure-answer-body ul {{
+      margin: 0;
+      padding-left: 18px;
+      color: #303b4c;
+      font-size: 13px;
+      line-height: 1.65;
+    }}
+    .pressure-answer-body .pressure-avoid {{
+      border-color: #e0b8ae;
+      background: #fff3ef;
+    }}
     .pressure-meta {{
       display: flex;
       flex-wrap: wrap;
@@ -1310,7 +1554,7 @@ html = f"""<!doctype html>
     @media (max-width: 760px) {{
       .main {{ padding: 22px 14px 48px; }}
       .hero {{ padding: 28px 20px; }}
-      .stats, .tech-grid, .answer-grid {{ grid-template-columns: 1fr; }}
+      .stats, .tech-grid, .answer-grid, .pressure-answer-body {{ grid-template-columns: 1fr; }}
       .toolbar {{ grid-template-columns: 1fr; }}
       .section-title {{ display: block; }}
       .section-title span {{ display: block; text-align: left; margin-top: 6px; }}
