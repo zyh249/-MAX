@@ -34,7 +34,7 @@ def main() -> None:
         (html.count('class="pressure-answer"') == len(pressure_questions), "pressure answer block count mismatch"),
         ("严厉面试官追问题库" in html, "missing strict interviewer section title"),
         ("data-pressure-cat" in html, "pressure questions must expose searchable category metadata"),
-        ("口语化短答" in html, "missing pressure answer label"),
+        ("完整口语化回答" in html, "missing pressure answer label"),
         ("答题要点" in html, "missing pressure answer points label"),
         ("避坑提醒" in html, "missing pressure avoid label"),
     ]
@@ -56,6 +56,17 @@ def main() -> None:
             fail(f"pressure question {index} missing fields: {', '.join(missing)}")
         if len(str(item["answer"])) < 45:
             fail(f"pressure question {index} answer is too short")
+        if len(str(item["answer"])) < 90:
+            fail(f"pressure question {index} answer is not complete enough")
+        weak_answer_markers = [
+            "然后把话题收回",
+            "这题先别急着背概念",
+            "这题要",
+            "然后强调",
+            "然后按链路讲",
+        ]
+        if any(marker in str(item["answer"]) for marker in weak_answer_markers):
+            fail(f"pressure question {index} still uses a generic answer template")
         if not isinstance(item["points"], (list, tuple)) or len(item["points"]) < 2:
             fail(f"pressure question {index} must have at least two answer points")
         if len(str(item["avoid"])) < 15:
